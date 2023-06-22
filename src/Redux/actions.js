@@ -32,7 +32,7 @@ import { ErrorMessage } from 'formik';
 
 export const getAllGames = () => {
   return async (dispatch) => {
-    const games = await axios.get("http://localhost:3001/games");
+    const games = await axios.get("https://lobbylair-e10z.onrender.com/games");
     dispatch({
       type: GET_ALL_GAMES,
       payload: games.data,
@@ -42,7 +42,7 @@ export const getAllGames = () => {
 
 export const getGameById = (id) => async (dispatch) => {
   try {
-    const gameId = await axios.get(`http://localhost:3001/games/${id}`);
+    const gameId = await axios.get(`https://lobbylair-e10z.onrender.com/${id}`);
     return dispatch({
       type: GET_GAME_BY_ID,
       payload: gameId.data,
@@ -54,7 +54,7 @@ export const getGameById = (id) => async (dispatch) => {
 export const getGamesWithPagination = (currentPage) => async (dispatch) => {
   try {
     const gamesPaginated = await axios.get(
-      `http://localhost:3001/games/page?page=${currentPage}`
+      `https://lobbylair-e10z.onrender.com/${currentPage}`
     );
     return dispatch({
       type: GET_GAMES_WITH_PAGINATION,
@@ -67,7 +67,7 @@ export const getGamesWithPagination = (currentPage) => async (dispatch) => {
 
 export const getGamesByName = (name) => async (dispatch) => {
   try {
-    const gameName = await axios(`http://localhost:3001/games/name/${name}`);
+    const gameName = await axios(`https://lobbylair-e10z.onrender.com/${name}`);
     return dispatch({
       type: GET_GAMES_BY_NAME,
       payload: gameName.data,
@@ -80,7 +80,7 @@ export const getGamesByName = (name) => async (dispatch) => {
 export const postGames = (payload) => {
   return async (dispatch) => {
     try {
-      let newGame = await axios.post("http://localhost:3001/games", payload);
+      let newGame = await axios.post("https://lobbylair-e10z.onrender.com/games", payload);
       return dispatch({
         type: POST_GAME,
         payload: newGame.data,
@@ -94,7 +94,7 @@ export const getPostsByUserId = (id) => {
   return async (dispatch) => {
     try {
       let post = await axios.get(
-        `http://localhost:3001/games/posts/user/${id}`
+        `https://lobbylair-e10z.onrender.com/games/posts/user/${id}`
       );
       return dispatch({
         type: GET_POST_BY_USER_ID,
@@ -110,7 +110,7 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
     try {
       if (gameid && gamemodeid && +currentPage >= 1) {
         const postsPaginated = await axios.get(
-          `http://localhost:3001/posts/page?page=${currentPage}&gameid=${gameid}&gamemodeid=${gamemodeid}`
+          `https://lobbylair-e10z.onrender.com/posts/page?page=${currentPage}&gameid=${gameid}&gamemodeid=${gamemodeid}`
         );
         return dispatch({
           type: GET_POST_WITH_PAGINATION,
@@ -118,7 +118,7 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
         });
       } else {
         const postsPaginated = await axios.get(
-          `http://localhost:3001/posts/page?page=${currentPage}`
+          `https://lobbylair-e10z.onrender.com/posts/page?page=${currentPage}`
         );
         return dispatch({
           type: GET_POST_WITH_PAGINATION,
@@ -133,7 +133,7 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
 export const getAllPosts = () => {
   return async (dispatch) => {
     try {
-      let allPosts = await axios.get("http://localhost:3001/posts");
+      let allPosts = await axios.get("https://lobbylair-e10z.onrender.com/posts");
       return dispatch({
         type: GET_ALL_POSTS,
         payload: allPosts.data,
@@ -148,7 +148,7 @@ export const deletePost = (payload) => {
   return async (dispatch) => {
     try {
       let newGame = await axios.post(
-        "http://localhost:3001/games/delete",
+        "https://lobbylair-e10z.onrender.com/games/delete",
         payload
       );
       return dispatch({
@@ -163,7 +163,7 @@ export const deletePost = (payload) => {
 export const gameMode = () => {
   return async (dispatch) => {
     try {
-      let newGame = await axios.get("http://localhost:3001/games/mode");
+      let newGame = await axios.get("https://lobbylair-e10z.onrender.com/games/mode");
       return dispatch({
         type: GET_GAME_MODE,
         payload: newGame.data,
@@ -176,7 +176,7 @@ export const gameMode = () => {
 export const createUser = (payload) => {
   return async (dispatch) => {
     try {
-      let newUser = await axios.post("http://localhost:3001/register", payload);
+      let newUser = await axios.post("https://lobbylair-e10z.onrender.com/register", payload);
       return dispatch({
         type: CREATE_USER,
         payload: newUser.data,
@@ -196,7 +196,7 @@ export const getUserById = (id) => async (dispatch) => {
         Authorization: `Bearer ${userToken}`,
       },
     };
-    const response = await axios(`http://localhost:3001/users/${id}`, config);
+    const response = await axios(`https://lobbylair-e10z.onrender.com/users/${id}`, config);
     return dispatch({
       type: GET_USER_BY_ID,
       payload: response.data,
@@ -207,7 +207,7 @@ export const getUserById = (id) => async (dispatch) => {
 };
 export const getUserByName = (name) => async (dispatch) => {
   try {
-    const userName = await axios(`http://localhost:3001/users/${name}`);
+    const userName = await axios(`https://lobbylair-e10z.onrender.com/users/${name}`);
     return dispatch({
       type: GET_USER_BY_NAME,
       payload: userName.data,
@@ -219,7 +219,7 @@ export const getUserByName = (name) => async (dispatch) => {
 export const getUserByEmail = (email) => async (dispatch) => {
   try {
     const userEmail = await axios.get(
-      `http://localhost:3001/users/email/${email}`
+      `https://lobbylair-e10z.onrender.com/users/email/${email}`
     );
     return dispatch({
       type: GET_USER_BY_EMAIL,
@@ -232,7 +232,7 @@ export const getUserByEmail = (email) => async (dispatch) => {
 
 export const logIn = (payload) => async (dispatch) => {
   try {
-    const response = await axios.post("http://localhost:3001/login", payload);
+    const response = await axios.post("https://lobbylair-e10z.onrender.com/login", payload);
     const data = response.data;
     return dispatch({
       type: CREATE_USER,
@@ -256,7 +256,7 @@ export const logOut = () => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    const userId = await axios(`http://localhost:3001/users/${id}`);
+    const userId = await axios(`https://lobbylair-e10z.onrender.com/users/${id}`);
     return dispatch({
       type: DELETE_USER,
       payload: userId.data,
@@ -269,7 +269,7 @@ export const deleteUser = (id) => async (dispatch) => {
 export const updateUser = (id, payload) => async (dispatch) => {
   try {
     const userId = await axios.put(
-      `http://localhost:3001/users/${id}`,
+      `https://lobbylair-e10z.onrender.com/users/${id}`,
       payload
     );
     console.log(userId.data);
@@ -285,7 +285,7 @@ export const updateUser = (id, payload) => async (dispatch) => {
 export const createPost = (payload) => {
   return async (dispatch) => {
     try {
-      let newPost = await axios.post("http://localhost:3001/posts", payload);
+      let newPost = await axios.post("https://lobbylair-e10z.onrender.com/posts", payload);
       let post = [newPost.data];
       return dispatch({
         type: CREATE_POST,
@@ -325,7 +325,7 @@ export const getAllUsers = () => async (dispatch) => {
         Authorization: `Bearer ${userToken}`, // Incluye el token en el encabezado de la solicitud
       },
     };
-    const response = await axios.get("http://localhost:3001/users", config);
+    const response = await axios.get("https://lobbylair-e10z.onrender.com/users", config);
     return dispatch({
       type: GET_ALL_USERS,
       payload: response.data,
