@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .imageBox {
+    flex-shrink: 0;
+    margin-right: 70px;
+    margin-top: 50px;
+  }
+  
+  .imageBox img {
+    width: 300px; /* Ajusta el tamaño deseado */
+    height: 300px;
+    margin-left: 200px;
+  }
+  
+  .datosUsuario {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+
+
+  
+  
+
+  
+  
+  
