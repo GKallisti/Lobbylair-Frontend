@@ -60,6 +60,8 @@ function App() {
       <Routes>
           <Route element={<ProtectedRoutes2 />}>
           <Route path="/" element={<LandingPage />} />
+          <Route exact path="/sendEmail" element={<SendEmail />} />
+          <Route exact path="/resetPassword/:token" element={<ResetPassword />} />
           </Route>
           <Route exact path="/register" element={<Register />} />
           <Route element={<ProtectedRoutes />}>
@@ -73,8 +75,7 @@ function App() {
           <Route path="/user/:id" element={<UsersProfile />} />
           <Route exact path="/chat" element={<Chat />} />
         </Route>
-        <Route exact path="/sendEmail" element={<SendEmail />} />
-        <Route exact path="/resetPassword/:token" element={<ResetPassword />} />
+        
       </Routes>
       <ProjectCursor />
     </div>
