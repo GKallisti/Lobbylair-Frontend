@@ -60,10 +60,10 @@ function App() {
       <Routes>
           <Route element={<ProtectedRoutes2 />}>
           <Route path="/" element={<LandingPage />} />
+           </Route>
           <Route exact path="/sendEmail" element={<SendEmail />} />
           <Route exact path="/resetPassword/:token" element={<ResetPassword />} />
-           <Route exact path="/register" element={<Register />} />
-          </Route>
+          <Route exact path="/register" element={<Register />} />
          
           <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<Home />} />
