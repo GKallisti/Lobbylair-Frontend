@@ -42,7 +42,7 @@ export const getAllGames = () => {
 
 export const getGameById = (id) => async (dispatch) => {
   try {
-    const gameId = await axios.get(`https://lobbylair-e10z.onrender.com/${id}`);
+    const gameId = await axios.get(`https://lobbylair-e10z.onrender.com/games/${id}`);
     return dispatch({
       type: GET_GAME_BY_ID,
       payload: gameId.data,
@@ -54,7 +54,7 @@ export const getGameById = (id) => async (dispatch) => {
 export const getGamesWithPagination = (currentPage) => async (dispatch) => {
   try {
     const gamesPaginated = await axios.get(
-      `https://lobbylair-e10z.onrender.com/${currentPage}`
+      `https://lobbylair-e10z.onrender.com/games/page?page=${currentPage}`
     );
     return dispatch({
       type: GET_GAMES_WITH_PAGINATION,
@@ -67,7 +67,7 @@ export const getGamesWithPagination = (currentPage) => async (dispatch) => {
 
 export const getGamesByName = (name) => async (dispatch) => {
   try {
-    const gameName = await axios(`https://lobbylair-e10z.onrender.com/${name}`);
+    const gameName = await axios(`https://lobbylair-e10z.onrender.com/games/name/${name}`);
     return dispatch({
       type: GET_GAMES_BY_NAME,
       payload: gameName.data,

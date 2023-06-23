@@ -5,7 +5,7 @@ const SendEmail = () => {
   const handleSendEmail = async (values) => {
     const { email } = values;
     try {
-      await axios.post("http://localhost:3001/sendEmail", { email });
+      await axios.post("https://lobbylair-e10z.onrender.com/sendEmail", { email });
     } catch (error) {
       alert(error.response.data.message || "Error al enviar el email");
     }

@@ -14,7 +14,7 @@ const PaymentComponent = () => {
   const createPreference = async () => {
     initMercadoPago(REACT_APP_KEY);
     try {
-      const response = await axios.post('http://localhost:3001/payment', {
+      const response = await axios.post('https://lobbylair-e10z.onrender.com/payment', {
         description: 'MercadoPago',
         price: 100,
         quantity: 1,
@@ -31,7 +31,7 @@ const PaymentComponent = () => {
     setSelectedOption(option);
 
     try {
-      const response = await fetch('http://localhost:3001/create-order', {
+      const response = await fetch('https://lobbylair-e10z.onrender.com/create-order', {
         method: 'POST',
       });
 

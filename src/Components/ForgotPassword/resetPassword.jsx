@@ -10,7 +10,7 @@ const ResetPassword = () => {
   const handleReset = async (values) => {
     const { newPassword } = values;
     try {
-      await axios.post("http://localhost:3001/resetPassword", {
+      await axios.post("https://lobbylair-e10z.onrender.com/resetPassword", {
         token,
         newPassword,
       });

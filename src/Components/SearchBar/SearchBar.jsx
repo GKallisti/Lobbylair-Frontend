@@ -28,7 +28,7 @@ const SearchBar = () => {
   const handleChange = async (event) => {
     setSearchName({ name: event.target.value });
     const response = await axios.get(
-      `http://localhost:3001/games/page?name=${event.target.value}` 
+      `https://lobbylair-e10z.onrender.com/games/page?name=${event.target.value}` 
     );
     setGame(response.data.games);
   };
