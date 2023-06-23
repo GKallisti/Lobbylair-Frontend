@@ -16,7 +16,6 @@ const Register = () => {
     e.preventDefault();
     try {
       const validateUser = await dispatch(createUser(data)); // Esperar a que se resuelva la promesa
-      console.log(validateUser);
       if (validateUser) {
         navigate("/");
       }
