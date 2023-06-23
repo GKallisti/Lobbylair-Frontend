@@ -7,7 +7,7 @@ const ProtectedRoutes = () => {
 
 const ProtectedRoutes2 = () => {
   const isAuthenticated = localStorage.getItem("isAuthenticated");
-  return isAuthenticated === 'false' ? <Outlet /> : <Navigate to="/home" />;
+  return isAuthenticated === 'false' || !isAuthenticated ? <Outlet /> : <Navigate to="/home" />;
 };
 
 export { ProtectedRoutes, ProtectedRoutes2 };
