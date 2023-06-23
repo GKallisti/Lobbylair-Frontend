@@ -176,7 +176,7 @@ export const gameMode = () => {
 export const createUser = (payload) => {
   return async (dispatch) => {
     try {
-      let newUser = await axios.post("https://lobbylair-e10z.onrender.com/register", payload);
+      let newUser = await axios.post("https://lobbylair-e10z.onrender.com/users", payload);
       return dispatch({
         type: CREATE_USER,
         payload: newUser.data,
