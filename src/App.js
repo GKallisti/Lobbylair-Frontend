@@ -65,7 +65,6 @@ function App() {
            <Route exact path="/register" element={<Register />} />
           </Route>
          
-
           <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<Home />} />
           <Route path="/games/:detail" element={<GameDetail />} />
