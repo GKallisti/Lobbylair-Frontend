@@ -323,7 +323,7 @@ export const getAllUsers = () => async (dispatch) => {
         Authorization: `Bearer ${userToken}`, // Incluye el token en el encabezado de la solicitud
       },
     };
-    const response = await axios.post("https://lobbylair-e10z.onrender.com/users", config);
+    const response = await axios.get("https://lobbylair-e10z.onrender.com/users", config);
     return dispatch({
       type: GET_ALL_USERS,
       payload: response.data,

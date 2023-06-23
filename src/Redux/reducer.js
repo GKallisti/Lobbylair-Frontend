@@ -36,6 +36,7 @@ const initialState = {
     : [],
   otherUser: [],
   myFavorites: [],
+  
 };
 
 const reducer = (state = initialState, action) => {
