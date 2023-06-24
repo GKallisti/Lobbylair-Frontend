@@ -43,6 +43,9 @@ const Login = () => {
     setModalIsOpen(false);
     navigate("/register");
   };
+  const gotosendEmail = () => { 
+    navigate("/sendEmail");
+  };
 
   const handleLogin = async (values) => {
     try {
@@ -175,11 +178,11 @@ const Login = () => {
               </button>
               <p className="mt-3 text-sm text-gray-800">
                 Don’t have an account yet?{" "}
-                <a href="/register" className="font-bold text-black">
+                <a onClick={gotoRegister} className="font-bold text-black">
                   Sign up
                 </a>
               </p>
-              <a href="/sendEmail" className="font-bold text-black text-sm">
+              <a onClick={gotosendEmail} className="font-bold text-black text-sm">
                 forgot your password?
               </a>
             </Form>
