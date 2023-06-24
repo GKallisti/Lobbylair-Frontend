@@ -1,36 +1,40 @@
+import { async } from "@firebase/util";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import {
-
-    GET_ALL_GAMES,
-    GET_GAMES_BY_NAME,
-    GET_GAME_BY_ID,
-    POST_GAME,
-    GET_POST_BY_USER_ID,
-    DELETE_POST,
-    GET_GAME_MODE,
-    CREATE_USER,
-    GET_USER_BY_ID,
-    GET_USER_BY_NAME,
-    GET_USER_BY_EMAIL,
-    LOG_OUT,
-    DELETE_USER,
-    UPDATE_USER,
-    GET_GAMES_WITH_PAGINATION,
-    GET_ALL_POSTS,
-    GET_POST_WITH_PAGINATION,
-    CREATE_POST,
-    ORDER,
-    GET_ALL_USERS,
-    ADD_FAVORITE,
-    DELETE_FAVORITE,
-
-    
-} from './action-types';
-
+  GET_ALL_GAMES,
+  GET_GAMES_BY_NAME,
+  GET_GAME_BY_ID,
+  POST_GAME,
+  GET_POST_BY_USER_ID,
+  DELETE_POST,
+  GET_GAME_MODE,
+  GET_GENRES,
+  CREATE_USER,
+  GET_USER_BY_ID,
+  GET_USER_BY_NAME,
+  GET_USER_BY_EMAIL,
+  LOG_OUT,
+  DELETE_USER,
+  UPDATE_USER,
+  GET_GAMES_WITH_PAGINATION,
+  GET_ALL_POSTS,
+  GET_POST_WITH_PAGINATION,
+  GET_USERS_WITH_PAGINATION,
+  CREATE_POST,
+  ORDER,
+  GET_ALL_USERS,
+  ADD_FAVORITE,
+  DELETE_FAVORITE,
+  DELETE_GAME,
+  GET_ADMINS,
+} from "./action-types";
+import { ErrorMessage } from "formik";
 
 export const getAllGames = () => {
   return async (dispatch) => {
-    const games = await axios.get("https://lobbylair-e10z.onrender.com/games");
+    const games = await axios.get("https://llbcknd.onrender.com/games");
     dispatch({
       type: GET_ALL_GAMES,
       payload: games.data,
@@ -40,7 +44,7 @@ export const getAllGames = () => {
 
 export const getGameById = (id) => async (dispatch) => {
   try {
-    const gameId = await axios.get(`https://lobbylair-e10z.onrender.com/games/${id}`);
+    const gameId = await axios.get(`https://llbcknd.onrender.com/games/${id}`);
     return dispatch({
       type: GET_GAME_BY_ID,
       payload: gameId.data,
@@ -52,7 +56,7 @@ export const getGameById = (id) => async (dispatch) => {
 export const getGamesWithPagination = (currentPage) => async (dispatch) => {
   try {
     const gamesPaginated = await axios.get(
-      `https://lobbylair-e10z.onrender.com/games/page?page=${currentPage}`
+      `https://llbcknd.onrender.com/games/page?page=${currentPage}`
     );
     return dispatch({
       type: GET_GAMES_WITH_PAGINATION,
@@ -65,7 +69,7 @@ export const getGamesWithPagination = (currentPage) => async (dispatch) => {
 
 export const getGamesByName = (name) => async (dispatch) => {
   try {
-    const gameName = await axios(`https://lobbylair-e10z.onrender.com/games/name/${name}`);
+    const gameName = await axios(`https://llbcknd.onrender.com/games/name/${name}`);
     return dispatch({
       type: GET_GAMES_BY_NAME,
       payload: gameName.data,
@@ -78,7 +82,8 @@ export const getGamesByName = (name) => async (dispatch) => {
 export const postGames = (payload) => {
   return async (dispatch) => {
     try {
-      let newGame = await axios.post("https://lobbylair-e10z.onrender.com/games", payload);
+      let newGame = await axios.post("https://llbcknd.onrender.com/games", payload);
+      console.log(newGame);
       return dispatch({
         type: POST_GAME,
         payload: newGame.data,
@@ -92,7 +97,7 @@ export const getPostsByUserId = (id) => {
   return async (dispatch) => {
     try {
       let post = await axios.get(
-        `https://lobbylair-e10z.onrender.com/games/posts/user/${id}`
+        `https://llbcknd.onrender.com/games/posts/user/${id}`
       );
       return dispatch({
         type: GET_POST_BY_USER_ID,
@@ -108,7 +113,7 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
     try {
       if (gameid && gamemodeid && +currentPage >= 1) {
         const postsPaginated = await axios.get(
-          `https://lobbylair-e10z.onrender.com/posts/page?page=${currentPage}&gameid=${gameid}&gamemodeid=${gamemodeid}`
+          `https://llbcknd.onrender.com/posts/page?page=${currentPage}&gameid=${gameid}&gamemodeid=${gamemodeid}`
         );
         return dispatch({
           type: GET_POST_WITH_PAGINATION,
@@ -116,7 +121,7 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
         });
       } else {
         const postsPaginated = await axios.get(
-          `https://lobbylair-e10z.onrender.com/posts/page?page=${currentPage}`
+          `https://llbcknd.onrender.com/posts/page?page=${currentPage}`
         );
         return dispatch({
           type: GET_POST_WITH_PAGINATION,
@@ -128,10 +133,23 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
     }
   };
 };
+
+export const getUsersWithPagination = (currentPage) => {
+  return async (dispatch) => {
+    const userPaginated = await axios.get(
+      `https://llbcknd.onrender.com/users/page/${currentPage}`
+    );
+    return dispatch({
+      type: GET_USERS_WITH_PAGINATION,
+      payload: userPaginated.data,
+    });
+  };
+};
+
 export const getAllPosts = () => {
   return async (dispatch) => {
     try {
-      let allPosts = await axios.get("https://lobbylair-e10z.onrender.com/posts");
+      let allPosts = await axios.get("https://llbcknd.onrender.com/posts");
       return dispatch({
         type: GET_ALL_POSTS,
         payload: allPosts.data,
@@ -145,10 +163,7 @@ export const getAllPosts = () => {
 export const deletePost = (payload) => {
   return async (dispatch) => {
     try {
-      let newGame = await axios.post(
-        "https://lobbylair-e10z.onrender.com/games/delete",
-        payload
-      );
+      let newGame = await axios.delete("https://llbcknd.onrender.com/post", payload);
       return dispatch({
         type: DELETE_POST,
         payload: newGame.data,
@@ -161,7 +176,7 @@ export const deletePost = (payload) => {
 export const gameMode = () => {
   return async (dispatch) => {
     try {
-      let newGame = await axios.get("https://lobbylair-e10z.onrender.com/games/mode");
+      let newGame = await axios.get("https://llbcknd.onrender.com/games/mode");
       return dispatch({
         type: GET_GAME_MODE,
         payload: newGame.data,
@@ -171,16 +186,32 @@ export const gameMode = () => {
     }
   };
 };
-export const createUser = (payload) => {
+export const getGenres = () => {
   return async (dispatch) => {
     try {
-      let newUser = await axios.post("https://lobbylair-e10z.onrender.com/users", payload);
+      let genres = await axios.get("https://llbcknd.onrender.com/games/genres");
+      return dispatch({
+        type: GET_GENRES,
+        payload: genres.data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+export const createUser = (payload) => {
+  const notifyError = (message) => toast.error(message);
+
+  return async (dispatch) => {
+    try {
+      let newUser = await axios.post("https://llbcknd.onrender.com/register", payload);
+
       return dispatch({
         type: CREATE_USER,
         payload: newUser.data,
       });
     } catch (error) {
-      alert("User already exists!");
+      notifyError("User already exists!");
     }
   };
 };
@@ -194,7 +225,7 @@ export const getUserById = (id) => async (dispatch) => {
         Authorization: `Bearer ${userToken}`,
       },
     };
-    const response = await axios(`https://lobbylair-e10z.onrender.com/users/${id}`, config);
+    const response = await axios(`https://llbcknd.onrender.com/users/${id}`, config);
     return dispatch({
       type: GET_USER_BY_ID,
       payload: response.data,
@@ -205,7 +236,7 @@ export const getUserById = (id) => async (dispatch) => {
 };
 export const getUserByName = (name) => async (dispatch) => {
   try {
-    const userName = await axios(`https://lobbylair-e10z.onrender.com/users/${name}`);
+    const userName = await axios(`https://llbcknd.onrender.com/users/${name}`);
     return dispatch({
       type: GET_USER_BY_NAME,
       payload: userName.data,
@@ -217,7 +248,7 @@ export const getUserByName = (name) => async (dispatch) => {
 export const getUserByEmail = (email) => async (dispatch) => {
   try {
     const userEmail = await axios.get(
-      `https://lobbylair-e10z.onrender.com/users/email/${email}`
+      `https://llbcknd.onrender.com/users/email/${email}`
     );
     return dispatch({
       type: GET_USER_BY_EMAIL,
@@ -228,9 +259,23 @@ export const getUserByEmail = (email) => async (dispatch) => {
   }
 };
 
+export const getAdminUsers = () => {
+  return async (dispatch) => {
+    try {
+      const admins = await axios.get("https://llbcknd.onrender.com/users/admins");
+      return dispatch({
+        type: GET_ADMINS,
+        payload: admins.data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
 export const logIn = (payload) => async (dispatch) => {
   try {
-    const response = await axios.post("https://lobbylair-e10z.onrender.com/login", payload);
+    const response = await axios.post("https://llbcknd.onrender.com/login", payload);
     const data = response.data;
     return dispatch({
       type: CREATE_USER,
@@ -254,7 +299,7 @@ export const logOut = () => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    const userId = await axios(`https://lobbylair-e10z.onrender.com/users/${id}`);
+    const userId = await axios(`https://llbcknd.onrender.com/users/${id}`);
     return dispatch({
       type: DELETE_USER,
       payload: userId.data,
@@ -267,7 +312,7 @@ export const deleteUser = (id) => async (dispatch) => {
 export const updateUser = (id, payload) => async (dispatch) => {
   try {
     const userId = await axios.put(
-      `https://lobbylair-e10z.onrender.com/users/${id}`,
+      `https://llbcknd.onrender.com/users/${id}`,
       payload
     );
     console.log(userId.data);
@@ -283,7 +328,7 @@ export const updateUser = (id, payload) => async (dispatch) => {
 export const createPost = (payload) => {
   return async (dispatch) => {
     try {
-      let newPost = await axios.post("https://lobbylair-e10z.onrender.com/posts", payload);
+      let newPost = await axios.post("https://llbcknd.onrender.com/posts", payload);
       let post = [newPost.data];
       return dispatch({
         type: CREATE_POST,
@@ -292,23 +337,28 @@ export const createPost = (payload) => {
     } catch (error) {
       throw new Error(error);
     }
+  };
+};
 
-
-}
-}
-
-export const addFavorite = (id,name,thumbnail) => {
-    
-    return {type:ADD_FAVORITE, payload: {id,name,thumbnail}
-
-}
-}
+export const getFavorite = () => {
+  return async (dispatch) => {
+    try {
+      const user = localStorage.getItem("user");
+      const token = JSON.parse(user).token;
+      const respuesta = await axios.get(
+        `https://llbcknd.onrender.com/favorite/${token}`
+      );
+      const data = respuesta.data;
+      console.log(data);
+      return dispatch({ type: ADD_FAVORITE, payload: data });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
 export const deleteFavorite = (id) => {
-    return {type:DELETE_FAVORITE, payload: id}
-}
-
-  
-
+  return { type: DELETE_FAVORITE, payload: id };
+};
 
 export const orderPostByCreation = (posts) => {
   return { type: ORDER, payload: posts };
@@ -323,7 +373,7 @@ export const getAllUsers = () => async (dispatch) => {
         Authorization: `Bearer ${userToken}`, // Incluye el token en el encabezado de la solicitud
       },
     };
-    const response = await axios.get("https://lobbylair-e10z.onrender.com/users", config);
+    const response = await axios.get("https://llbcknd.onrender.com/users", config);
     return dispatch({
       type: GET_ALL_USERS,
       payload: response.data,
@@ -333,5 +383,30 @@ export const getAllUsers = () => async (dispatch) => {
   }
 };
 
+export const deleteGame = (id) => {
+  return async (dispatch) => {
+    try {
+      const gameId = await axios.delete(`https://llbcknd.onrender.com/games/${id}`);
+      return dispatch({
+        type: DELETE_GAME,
+        payload: gameId.data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
 
-
+export const getGameModes = () => {
+  return async (dispatch) => {
+    try {
+      let newGame = await axios.get("https://llbcknd.onrender.com/games/mode");
+      return dispatch({
+        type: GET_GAME_MODE,
+        payload: newGame.data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};

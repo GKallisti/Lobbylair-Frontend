@@ -3,8 +3,13 @@ import { createUser } from "../../Redux/actions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import LobbyLogo from "../../Multimedia/Logo Lobbylair.gif";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Register = () => {
+   const notifyError = (message) => toast.error(message);
+   const notify = (message) => toast.success(message);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [data, setData] = useState({
@@ -16,12 +21,18 @@ const Register = () => {
     e.preventDefault();
     try {
       const validateUser = await dispatch(createUser(data)); // Esperar a que se resuelva la promesa
+      console.log(validateUser);
       if (validateUser) {
-        navigate("/");
+        notify("User created successfully, Login to continue");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000); 
       }
+      
     } catch (error) {
-      alert(error);
+       notifyError(error);
     }
+
   };
 
   const [errors, setErrors] = useState({
@@ -264,6 +275,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };

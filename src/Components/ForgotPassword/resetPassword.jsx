@@ -6,11 +6,12 @@ import axios from "axios";
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
-
+  console.log("as");
   const handleReset = async (values) => {
+    console.log("a");
     const { newPassword } = values;
     try {
-      await axios.post("https://lobbylair-e10z.onrender.com/resetPassword", {
+      await axios.post("https://llbcknd.onrender.com/resetPassword", {
         token,
         newPassword,
       });
@@ -39,8 +40,8 @@ const ResetPassword = () => {
                 "La contraseña debe tener al menos 8 caracteres";
             }
 
-            if (!/(?=.*[A-Z])(?=.*[!@#$%^&*])/.test(values.password)) {
-              errors.password =
+            if (!/(?=.*[A-Z])(?=.*[!@#$%^&*])/.test(values.newPassword)) {
+              errors.newPassword =
                 "Password must contain at least one uppercase letter and one symbol";
             }
 
@@ -97,6 +98,7 @@ const ResetPassword = () => {
             </div>
             <button
               type="submit"
+              onSubmit={handleReset}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Restablecer contraseña

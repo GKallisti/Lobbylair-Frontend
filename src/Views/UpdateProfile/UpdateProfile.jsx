@@ -42,7 +42,7 @@ export default function UpdateProfile() {
             type="text"
             name="name"
             id="name"
-            className="w-full p-2 border border-gray-300 rounded-[5rem]"
+            className="w-full p-2 border border-gray-300 rounded-[5rem] truncate"
             placeholder="Enter your name"
             value={formData.name}
             onChange={handleChange}
@@ -54,19 +54,19 @@ export default function UpdateProfile() {
             type="text"
             name="image"
             id="image"
-            className="w-full p-2 border border-gray-300 rounded-[5rem]"
+            className="w-full p-2 border border-gray-300 rounded-[5rem] truncate"
             placeholder="Enter the image URL"
             value={formData.image}
             onChange={handleChange}
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="perfilUrl" className="block text-gray-700 text-sm font-bold mb-2">Perfil URL</label>
+          <label htmlFor="perfilUrl" className="block text-gray-700 text-sm font-bold mb-2 ">Perfil URL</label>
           <input
             type="text"
             name="perfilUrl"
             id="perfilUrl"
-            className="w-full p-2 border border-gray-300 rounded-[5rem]"
+            className="w-full p-2 border border-gray-300 rounded-[5rem] truncate"
             placeholder="Enter the perfil URL"
             value={formData.perfilUrl}
             onChange={handleChange}

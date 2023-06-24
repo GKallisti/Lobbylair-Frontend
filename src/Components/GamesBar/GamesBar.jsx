@@ -23,7 +23,7 @@ const ImagePreloader = ({ src }) => {
 
   return isLoaded ? (
     <div className="w-[80%] my-6">
-        <img src={src} alt="" className="w-full h-full flex object-cover" />
+      <img src={src} alt="" className="w-full h-full flex object-cover" />
     </div>
   ) : (
     <Loader />
@@ -59,7 +59,7 @@ const GamesBar = () => {
       setBtnDown(false);
       setBtnUp(false);
     }
-  });
+  }, []);
 
   const handleDown = (event) => {
     if (currentPage !== games.totalPages) {
@@ -87,8 +87,7 @@ const GamesBar = () => {
         }}
         dragElastic={0.8}
       >
-     
-        <div >
+        <div>
           <div className="flex justify-center">
             <div className="my-8 w-full h-full flex items-center justify-center">
               <div className="flex justify-center">
