@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 import { useDispatch } from "react-redux";
-import { logIn } from "../../Redux/actions";
+import { createUser, getUserByEmail, logIn } from "../../Redux/actions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FcGoogle } from "react-icons/fc";
 import LobbyLogo from "../../Multimedia/Logo Lobbylair.gif";
@@ -43,6 +43,7 @@ const Login = () => {
     setModalIsOpen(false);
     navigate("/register");
   };
+
   const gotosendEmail = () => { 
     navigate("/sendEmail");
   };
@@ -65,7 +66,30 @@ const Login = () => {
 
     try {
       const res = await signInWithPopup(auth, googleProvider);
-      console.log(res);
+      const user = res.user;
+      const resDb = await dispatch(getUserByEmail(user.email));
+      const userDb = resDb.payload;
+      const email = userDb.email;
+      if (userDb.id) {
+        const validateUser = await dispatch(logIn({ email, password: email }));
+        localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("user", JSON.stringify(validateUser.payload));
+        navigate("/home");
+      } else {
+        const { email, displayName } = user;
+        await dispatch(
+          createUser({ email, name: displayName, password: email })
+        );
+        const resDb = await dispatch(getUserByEmail(user.email));
+        const userDb = resDb.payload;
+        const emailDb = userDb.email;
+        const validateUser = await dispatch(
+          logIn({ email: emailDb, password: emailDb })
+        );
+        localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("user", JSON.stringify(validateUser.payload));
+        navigate("/home");
+      }
     } catch (error) {
       openModal();
     }

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUsersWithPagination } from "../../Redux/actions";
+import { ToastContainer } from "react-toastify";
 
 const DeleteUser = ({ afterDelete }) => {
   const dispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); 
 
   useEffect(() => {
     dispatch(getUsersWithPagination(currentPage));
@@ -40,27 +41,38 @@ const DeleteUser = ({ afterDelete }) => {
   };
 
   return (
-    <div>
-      {pagedUsers.totalPages > 1 && (
-        <div>
-          <button onClick={handlePrev}>{"<"}</button>
-          <button onClick={handleNext}>{">"}</button>
-        </div>
-      )}
-      {inPageUsers?.map((user) => {
-        return (
-          <div key={user.id}>
-            <label htmlFor="name">{user.name}</label>
-            {user.id !== currentUser.id && (
-              <button onClick={() => handleDeleteUser(user.id)}>
-                Delete User
-              </button>
-            )}
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+        {pagedUsers.totalPages > 1 && (
+          <div className="bg-gray-300 rounded p-3 shadow-3xl border-l-black">
+            <button onClick={handlePrev} className="mt-2 text-red-700">
+              {"<"}
+            </button>
+            <button onClick={handleNext} className="mt-2 text-red-700">
+              {">"}
+            </button>
           </div>
-        );
-      })}
-    </div>
-  );
+        )}
+        {inPageUsers?.map((user) => {
+          return (
+            <div key={user.id}>
+              <div className="bg-gray-300 rounded p-4 shadow-3xl border-l-black">
+                <label htmlFor="name" className="block text-black">
+                  {user.name}
+                </label>
+                {user.id !== currentUser.id && (
+                  <button onClick={() => handleDeleteUser(user.id)} className="mt-2 text-red-700">
+                    Delete User
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <ToastContainer />
+    </>
+  );  
 };
 
 export default DeleteUser;

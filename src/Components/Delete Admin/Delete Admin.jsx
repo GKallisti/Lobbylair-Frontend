@@ -4,6 +4,7 @@ import { getAdminUsers, updateUser } from "../../Redux/actions";
 import axios from "axios";
 
 const DeleteAdmin = ({ afterDeleteAdmin }) => {
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const DeleteAdmin = ({ afterDeleteAdmin }) => {
           <div key={admin.id}>
             <label htmlFor="Name">{admin.name}</label>{" "}
             <button onClick={() => handleDeleteAdmin(admin.id)}>
+      
               Delete admin
             </button>
           </div>

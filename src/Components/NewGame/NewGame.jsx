@@ -1,26 +1,33 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getGenres, getGameModes, postGames } from "../../Redux/actions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Formik, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const NewGame = ({ handleOnNewGame }) => {
   const dispatch = useDispatch();
-  let z = 1;
-  let x = 1;
+  const notify = (message) => toast.success(message);
 
-  const [genres, setGenres] = useState([]);
-  const [gameModes, setGameModes] = useState([]);
-  const [error, setError] = useState({
-    name: "",
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Game Name is required")
+      .matches(/^[a-zA-Z0-9\s]+$/, "Invalid Game Name"),
+    thumbnail: Yup.string().required("Thumbnail URL is required").url("Invalid Thumbnail URL"),
+
+    genres: Yup.array().required("At least one Genre is required"),
+    
+    gameModes: Yup.array().required("At least one Game Mode is required"),
   });
 
-  const [data, setData] = useState({
-    name: "",
-    thumbnail: "",
-    genres: [],
-    gameModes: [],
-  });
+  const handleOnSubmit = (values) => {
+    dispatch(postGames(values));
+    notify("New game added");
+    handleOnNewGame();
+  };
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(getGenres());
     dispatch(getGameModes());
   }, []);
@@ -28,141 +35,106 @@ const NewGame = ({ handleOnNewGame }) => {
   const allGenres = useSelector((state) => state.genre);
   const allGameModes = useSelector((state) => state.gameMode);
 
-  const handleOnChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleGameModesChanges = (event) => {
-    if (event.target.checked) {
-      setGameModes([...gameModes, event.target.value]);
-      setData({ ...data, gameModes: [...gameModes, event.target.value] });
-    } else {
-      const updatedGameModes = gameModes.filter((g) => g !== gameModes);
-      setGameModes(updatedGameModes);
-      setData({ ...data, gameModes: updatedGameModes });
-    }
-  };
-
-  const handleGenresChange = (event) => {
-    if (event.target.checked) {
-      setGenres([...genres, event.target.value]);
-      setData({ ...data, genres: [...genres, event.target.value] });
-    } else {
-      const updatedGenres = gameModes.filter((g) => g !== genres);
-      setGameModes(updatedGenres);
-      setData({ ...data, genre: updatedGenres });
-    }
-  };
-
-  const handleOnSubmit = (event) => {
-    event.preventDefault();
-    dispatch(postGames(data));
-    setData({
-      name: "",
-      thumbnail: "",
-      gameModes: [],
-      genres: [],
-    });
-    handleOnNewGame();
-  };
-
   return (
-    <form key="New Game Form" onSubmit={handleOnSubmit}>
-      <label className="mb-1 text-sm font-bold text-gray-800" htmlFor="Name">
-        Game Name
-      </label>
-      <input
-        type="text"
-        placeholder="Introduce a game name"
-        name="name"
-        className="p-1 m-1 border border-gray-300 rounded-[1rem]"
-        value={data.name}
-        onChange={handleOnChange}
-      />
-      <hr />
-      <label
-        className="mb-1 text-sm font-bold text-gray-800"
-        htmlFor="thumbnail"
+    <>
+      <Formik
+        initialValues={{
+          name: "",
+          thumbnail: "",
+          genres: [],
+          gameModes: [],
+        }}
+        onSubmit={handleOnSubmit}
+        validationSchema={validationSchema}
       >
-        Thumbnail
-      </label>
-      <input
-        type="text"
-        className="p-1 m-1 border border-gray-300 rounded-[1rem]"
-        placeholder="Introduce an Url"
-        name="thumbnail"
-        value={data.thumbnail}
-        onChange={handleOnChange}
-      />
-      <hr />
-      <label className="mb-1 text-sm font-bold text-gray-800" htmlFor="">
-        Game modes
-      </label>
-      <div className="flex flex-row place-content-center">
-        {allGameModes.map((gnr) => (
-          <div>
-            <ul>
-              <li>
-                <input
-                  onChange={handleGameModesChanges}
-                  type="checkbox"
-                  value={gnr.name}
-                  className="p-1 m-1 border border-gray-300 rounded-[1rem]"
-                  key={"a" + z++}
-                  name="name"
-                />
-                <label
-                  className="m-1 text-sm font-bold text-gray-800"
-                  htmlFor={"a" + z++}
-                >
-                  {gnr.name}
-                </label>
-              </li>
-            </ul>
-          </div>
-        ))}
-      </div>
-      <hr />
+        {(formik) => (
+          <form key="New Game Form" onSubmit={formik.handleSubmit}>
+            <label className="mb-1 text-sm font-bold text-gray-800" htmlFor="name">
+              Game Name
+            </label>
+            <Field
+              type="text"
+              placeholder="Introduce a game name"
+              name="name"
+              className="p-2 m-2 border border-gray-300 rounded-[1rem]"
+            />
+            <ErrorMessage name="name" component="div" className="text-red-500 text-sm" />
+            <hr />
 
-      <label className="mb-1 text-sm font-bold text-gray-800" htmlFor="">
-        Genres
-      </label>
-      <div style={{ display: "grid", gridTemplateColumns: "Repeat(6, 1fr)" }}>
-        {allGenres.map((gnr) => (
-          <div>
-            <ul>
-              <li>
-                <input
-                  type="checkbox"
-                  onChange={handleGenresChange}
-                  value={gnr.name}
-                  className="p-1 m-1 border border-gray-300 rounded-[1rem]"
-                  key={"a" + x++}
-                />
-                <label
-                  className="m-1 text-sm font-bold text-gray-800"
-                  htmlFor={"a" + x++}
-                >
-                  {gnr.name}
-                </label>
-              </li>
-            </ul>
-          </div>
-        ))}
-      </div>
+            <label className="mb-2 text-sm font-bold text-gray-800" htmlFor="thumbnail">
+              Thumbnail
+            </label>
+            <Field
+              type="text"
+              className="p-2 m-2 border border-gray-300 rounded-[1rem]"
+              placeholder="Introduce an Url"
+              name="thumbnail"
+            />
+            <ErrorMessage name="thumbnail" component="div" className="text-red-500 text-sm" />
+            <hr />
 
-      <hr />
-      <button
-        className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        type="submit"
-      >
-        New Game
-      </button>
-      <hr />
-    </form>
+            <label className="mb-2  text-sm font-bold text-gray-800" htmlFor="gameModes">
+              Game Modes
+            </label>
+            <div className="flex flex-row place-content-center my-3">
+              {allGameModes.map((gameMode) => (
+                <div key={gameMode.id}>
+                  <ul>
+                    <li>
+                      <Field
+                        type="checkbox"
+                        name="gameModes"
+                        value={gameMode.name}
+                        className="p-1 m-1 my-3  border border-gray-300 rounded-[1rem]"
+                      />
+                      <label className="m-1 text-sm font-bold text-gray-800" htmlFor={gameMode.name}>
+                        {gameMode.name}
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <ErrorMessage name="gameModes" component="div" className="text-red-500 text-sm" />
+            <hr />
+
+            <label className="mb-1 text-sm my-3 font-bold text-gray-800" htmlFor="genres">
+              Genres
+            </label>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)" }}>
+              {allGenres.map((genre) => (
+                <div key={genre.id}>
+                  <ul>
+                    <li>
+                      <Field
+                        type="checkbox"
+                        name="genres"
+                        value={genre.name}
+                        className="p-1 m-1 border border-gray-300 rounded-[1rem]"
+                      />
+                      <label className="m-1 text-sm font-bold text-gray-800" htmlFor={genre.name}>
+                        {genre.name}
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <ErrorMessage name="genres" component="div" className="text-red-500 text-sm" />
+            <hr />
+
+            <button
+              className="m-4 py-2 px-3 border border-transparent hover:text-black rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 "
+              type="submit"
+              disabled={!formik.isValid}
+            >
+              New Game
+            </button>
+          </form>
+        )}
+      </Formik>
+      <ToastContainer />
+    </>
   );
 };
 

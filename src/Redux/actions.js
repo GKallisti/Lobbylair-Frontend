@@ -80,16 +80,19 @@ export const getGamesByName = (name) => async (dispatch) => {
 };
 
 export const postGames = (payload) => {
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
   return async (dispatch) => {
     try {
       let newGame = await axios.post("https://llbcknd.onrender.com/games", payload);
       console.log(newGame);
+      notifySuccess("Game created successfully!");
       return dispatch({
         type: POST_GAME,
         payload: newGame.data,
       });
     } catch (error) {
-      throw new Error(error);
+      throw new notifyError(error);
     }
   };
 };
@@ -299,7 +302,7 @@ export const logOut = () => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    const userId = await axios(`https://llbcknd.onrender.com/users/${id}`);
+    const userId = await axios.delete(`https://llbcknd.onrender.com/users/${id}`);
     return dispatch({
       type: DELETE_USER,
       payload: userId.data,
@@ -343,8 +346,10 @@ export const createPost = (payload) => {
 export const getFavorite = () => {
   return async (dispatch) => {
     try {
-      const user = localStorage.getItem("user");
-      const token = JSON.parse(user).token;
+      const user = JSON.parse(localStorage.getItem("user"));
+      const token = user.token;
+      console.log(user);
+      console.log(token);
       const respuesta = await axios.get(
         `https://llbcknd.onrender.com/favorite/${token}`
       );
@@ -384,15 +389,18 @@ export const getAllUsers = () => async (dispatch) => {
 };
 
 export const deleteGame = (id) => {
+  const notifyError = (message) => toast.error(message);
+
   return async (dispatch) => {
     try {
       const gameId = await axios.delete(`https://llbcknd.onrender.com/games/${id}`);
+
       return dispatch({
         type: DELETE_GAME,
         payload: gameId.data,
       });
     } catch (error) {
-      throw new Error(error);
+      throw new notifyError(error);
     }
   };
 };

@@ -5,64 +5,60 @@ import DeleteUser from "../../Components/DeleteUser/DeleteUser";
 import NewGame from "../../Components/NewGame/NewGame";
 import DeleteAdmin from "../../Components/Delete Admin/Delete Admin";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 const AdminDashboard = () => {
   const [show, setShow] = useState(false);
   const [showD, setShowD] = useState(false);
   const [showU, setShowU] = useState(false);
   const [showM, setShowM] = useState(false);
   const [showA, setShowA] = useState(false);
+  const [gamesUpdated, setGamesUpdated] = useState(false);
 
   const handleNewGame = () => {
-    if (!show) setShow(true);
-    if (show) setShow(false);
-    if (showD || showM || showU || showA) {
-      setShowD(false);
-      setShowU(false);
-      setShowM(false);
-      setShowA(false);
-    }
+    setShow(true);
+    setShowD(false);
+    setShowU(false);
+    setShowM(false);
+    setShowA(false);
   };
+
   const handleOnNewGame = () => {
     setShow(false);
+    setGamesUpdated(true);
   };
+
   const handleDeleteGame = () => {
-    if (!showD) setShowD(true);
-    if (showD) setShowD(false);
-    if (show || showM || showU || showA) {
-      setShow(false);
-      setShowU(false);
-      setShowM(false);
-      setShowA(false);
-    }
+    setShow(false);
+    setShowD(true);
+    setShowU(false);
+    setShowM(false);
+    setShowA(false);
   };
 
   const handleOnDelete = () => {
+    setGamesUpdated(true);
     setShowD(false);
   };
 
   const handleAddAdmin = () => {
-    if (!showM) setShowM(true);
-    if (showM) setShowM(false);
-    if (show || showD || showU || showA) {
-      setShow(false);
-      setShowU(false);
-      setShowD(false);
-      setShowA(false);
-    }
+    setShow(false);
+    setShowD(false);
+    setShowU(false);
+    setShowM(true);
+    setShowA(false);
   };
 
   const handleAddedAdmin = () => {
     setShowM(false);
   };
+
   const handleDeleteUser = () => {
-    if (!showU) setShowU(true);
-    if (showU) setShowU(false);
-    if (show || showD || showM || showA) {
-      setShow(false);
-      setShowM(false);
-      setShowD(false);
-      setShowA(false);
-    }
+    setShow(false);
+    setShowD(false);
+    setShowU(true);
+    setShowM(false);
+    setShowA(false);
   };
 
   const afterDelete = () => {
@@ -70,55 +66,54 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteAdmin = () => {
-    if (!showA) setShowA(true);
-    if (showA) setShowA(false);
-    if (show || showD || showM || showU) {
-      setShow(false);
-      setShowM(false);
-      setShowD(false);
-      setShowU(false);
-    }
+    setShow(false);
+    setShowD(false);
+    setShowU(false);
+    setShowM(false);
+    setShowA(true);
   };
+
   const afterDeleteAdmin = () => {
     setShowA(false);
   };
 
   return (
-    <div className="mt-24 bg-gray-200 flex flex-col ml-11 items-center rounded-[2rem] justify-center shadow-2xl">
-      <div className="mb-4">
-        <h1 className="text-xl font-bold mb-4 text-gray-800 text-center">
-          Imagen con posteos favoritos/juegos mas jugados
+    <div className="w-[100%]  justify-center items-center">
+    <div className="flex mt-24 mx-auto bg-gray-200  flex-col w-[90%] items-center rounded-[2rem] justify-center shadow-2xl">
+      <div className="mb-4 justify-center">
+        <h1 className="text-xl font-bold mb-4 my-8 text-gray-800 text-center">
+         Dashboard Admin
         </h1>
       </div>
-      <div className="flex p-4">
+      <div className="flex p-2 my-5">
         <button
-          className="flex justify-center m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="flex justify-center m-1 py-2 px-4 border border-transparent hover:text-black rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
           onClick={handleNewGame}
         >
           <h1>New Game</h1>
         </button>
         <button
-          className="flex justify-center m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="flex justify-center m-1 py-2 px-4 border border-transparent hover:text-black rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
           onClick={handleDeleteGame}
         >
           Delete Game
         </button>
         <button
-          className="flex justify-center m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="flex justify-center m-1 py-2 px-4 border border-transparent hover:text-black rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
           value="Mod Admin"
           onClick={handleAddAdmin}
         >
           Add Admin
         </button>
         <button
-          className="flex justify-center m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="flex justify-center m-1 py-2 px-4 border border-transparent hover:text-black rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
           value="Del User"
           onClick={handleDeleteAdmin}
         >
           Delete an admin
         </button>
         <button
-          className="flex justify-center m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="flex justify-center m-1 py-2 px-4 border border-transparent hover:text-black rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
           value="Del User"
           onClick={handleDeleteUser}
         >
@@ -128,9 +123,9 @@ const AdminDashboard = () => {
       <div>
         {show && (
           <div>
-            <NewGame handleOnNewGame={handleOnNewGame} />{" "}
+            <NewGame handleOnNewGame={handleOnNewGame} />
             <button
-              className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="py-2 my-3 px-4 border border-transparent hover:text-black rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               onClick={() => setShow(false)}
             >
               Cancel
@@ -141,19 +136,19 @@ const AdminDashboard = () => {
       {showD && (
         <div>
           <button
-            className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="m-1 py-2 my-4 px-4 border border-transparent rounded-md shadow-sm hover:text-black text-sm font-medium text-white bg-gray-800 hover:bg-white"
             onClick={() => setShowD(false)}
           >
             Cancel
           </button>
-          <DeleteGame handleOnDelete={handleOnDelete} />
+          <DeleteGame handleOnDelete={handleOnDelete} handleDeleteGame={handleDeleteGame} />
         </div>
       )}
       <div>
         {showM && (
           <div>
             <button
-              className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800"
               onClick={() => setShowM(false)}
             >
               Cancel
@@ -166,7 +161,7 @@ const AdminDashboard = () => {
         {showA && (
           <div>
             <button
-              className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800"
               onClick={() => setShowA(false)}
             >
               Cancel
@@ -179,7 +174,7 @@ const AdminDashboard = () => {
         {showU && (
           <div>
             <button
-              className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="m-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800"
               onClick={() => setShowU(false)}
             >
               Cancel
@@ -187,6 +182,7 @@ const AdminDashboard = () => {
             <DeleteUser afterDelete={afterDelete} />
           </div>
         )}
+      </div>
       </div>
     </div>
   );

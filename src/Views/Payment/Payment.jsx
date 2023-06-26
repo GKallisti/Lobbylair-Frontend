@@ -6,17 +6,19 @@ import axios from "axios";
 const PaymentComponent = () => {
   const [preferenceId, setPreferenceId] = useState(null);
   const stateUser = useSelector((state) => state.user);
+  console.log(stateUser);
   const [selectedOption, setSelectedOption] = useState(null);
   const REACT_APP_KEY = window.env.REACT_APP_MERCADOPAGO_KEY;
+  console.log(REACT_APP_KEY);
   const createPreference = async () => {
     initMercadoPago(REACT_APP_KEY);
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user.token;
     try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const token = user.token;
       const response = await axios.post("https://llbcknd.onrender.com/payment", {
-        token,
-        type: "premiun",
+        token: token,
         amount: 100,
+        type: "premium",
         currency: "ARS",
       });
       const { id } = response.data;
@@ -28,18 +30,20 @@ const PaymentComponent = () => {
 
   const handlePayPal = async (option) => {
     setSelectedOption(option);
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user.token;
+
     try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const token = user.token;
       const response = await axios.post("https://llbcknd.onrender.com/create-order", {
-        amount: 30,
-        currency: "USD",
-        type: "premiun",
         token: token,
+        amount: 30,
+        type: "premium",
+        currency: "USD",
       });
-      console.log(response);
-      if (response.data) {
+
+      if (response) {
         const data = response.data;
+        console.log(data);
         if (data.links && data.links[1] && data.links[1].href) {
           window.location.href = data.links[1].href;
         } else {
@@ -63,7 +67,7 @@ const PaymentComponent = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center mt-7 h-screen ">
       <h1 className="text-2xl font-bold mb-8">Choose a payment option:</h1>
 
       <div className="flex gap-4">
