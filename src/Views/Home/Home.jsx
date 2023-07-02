@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+
 
 import {
   getAllPosts,
@@ -9,12 +10,16 @@ import {
   getFavorite,
   orderPostByCreation,
 } from "../../Redux/actions";
+import { imageDef } from "../../Multimedia/imageDefault";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fav = useSelector((state) => state.myFavorites);
   const images = fav.map((favorite) => favorite.thumbnail);
+  
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     localStorage.setItem("isAuthenticated", true);
@@ -35,6 +40,7 @@ const Home = () => {
   const handleDragEnd = (event, info) => {
     console.log("Image dragged and dropped!");
   };
+
 
   return (
     <>
@@ -77,26 +83,30 @@ const Home = () => {
                     <div className="w-[80%] mx-auto mt-2 border-2 border-crimson p-2 flex flex-col items-start mb-1 ml-auto">
                       <div className="bg-gray-300 flex rounded-xl items-center justify-between shadow-md w-[100%]">
                         <div className="flex items-center">
-                          <img
-                            src="https://source.unsplash.com/120x120/?person"
-                            alt=""
-                            className={`rounded-[2rem] ${
-                              post.User?.name ? "w-[35%]" : "w-[50%]"
-                            } h-full cursor-pointer p-2`}
-                          />
-
+                          {
+                            post.User?.image?.length >1 ? <img src={post.User?.image} className={`rounded-[2rem] h-10 w-10`}/>
+                            : <img src={imageDef} className={`rounded-[2rem] h-10 w-10`} />
+                          }
                           <div className="">
                             {post.User?.name && (
                               <>
                                 <p className="text-black text-xs">Posted By:</p>
-                                <NavLink to={`/user/${post.User?.id}`}>
+                                <button onClick={
+                                  ()=>{
+                                    if(post.User.id === user.id) navigate(`/profile/${user.id}`)
+                                    else{navigate (`/user/${post.User.id}`)}
+                                  }}>
+
                                   <p className=" text-black text-xs font-bold ">
                                     {post.User?.name}
                                   </p>
-                                </NavLink>
+                                </button>
                               </>
                             )}
                           </div>
+                        </div>
+                        <div>
+                          <h1>{post.Game?.name}</h1>
                         </div>
                         <div className="flex flex-col items-end">
                           <div className="text-black  text-xs mr-9 ">
@@ -133,13 +143,15 @@ const Home = () => {
             <p className="text-s text-black">
               Subscribe to unlock new features
             </p>
-            <motion.button
-              className="bg-black text-white rounded-[6.9px] px-3 py-2 mt-3"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              Subscribe
-            </motion.button>
+            <Link to="/subscription">
+          <motion.button
+            className="bg-black text-white rounded-[6.9px] px-3 py-2 mt-3"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            Subscribe
+          </motion.button>
+        </Link>
           </motion.div>
 
           <div className="flex flex-col items-center bg-gray-300 rounded-[3rem] w-[59%] justify-center mx-[6.9rem] mt-5 shadow-xl">

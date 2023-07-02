@@ -29,6 +29,11 @@ import {
   DELETE_FAVORITE,
   DELETE_GAME,
   GET_ADMINS,
+  CREATE_RESPONSE,
+  GET_RESPONSE,
+  DELETE_RESPONSE,
+  GET_RESPONSE_BY_POST_ID,
+  GET_ALL_FAVORITES
 } from "./action-types";
 import { ErrorMessage } from "formik";
 
@@ -85,7 +90,6 @@ export const postGames = (payload) => {
   return async (dispatch) => {
     try {
       let newGame = await axios.post("https://llbcknd.onrender.com/games", payload);
-      console.log(newGame);
       notifySuccess("Game created successfully!");
       return dispatch({
         type: POST_GAME,
@@ -318,7 +322,6 @@ export const updateUser = (id, payload) => async (dispatch) => {
       `https://llbcknd.onrender.com/users/${id}`,
       payload
     );
-    console.log(userId.data);
     return dispatch({
       type: UPDATE_USER,
       payload: userId.data,
@@ -348,13 +351,10 @@ export const getFavorite = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user.token;
-      console.log(user);
-      console.log(token);
       const respuesta = await axios.get(
         `https://llbcknd.onrender.com/favorite/${token}`
       );
       const data = respuesta.data;
-      console.log(data);
       return dispatch({ type: ADD_FAVORITE, payload: data });
     } catch (error) {
       throw new Error(error);
@@ -418,3 +418,71 @@ export const getGameModes = () => {
     }
   };
 };
+ 
+
+export const getResponse = (postId) => {
+  return async (dispatch) => {
+    try {
+      dispatch(getResponseByPostId(postId)); // Agrega esta línea para despachar la acción
+
+      const response = await axios.get(`https://llbcknd.onrender.com/response/${postId}`);
+      
+      const payload = {
+        [postId]: response.data, // Anidar las respuestas dentro del postId correspondiente
+      };
+
+      return dispatch({
+        type: GET_RESPONSE,
+        payload: payload,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+export const createResponse = (text, postId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post("https://llbcknd.onrender.com/response", { text, postId });
+      return dispatch({
+        type: CREATE_RESPONSE,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+
+
+export const deleteResponse = (responseId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.delete(`https://llbcknd.onrender.com/response/${responseId}`);
+      return dispatch({
+        type: DELETE_RESPONSE,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+};
+export const getResponseByPostId = (postId) => ({
+  type: GET_RESPONSE_BY_POST_ID,
+  payload: postId,
+})
+export const getAllFavorites = ()=>{
+  return async (dispatch)=>{
+    try {
+      const allFavorites= await axios.get('https://llbcknd.onrender.com/favorite')
+      return dispatch({
+        type:GET_ALL_FAVORITES,
+        payload:allFavorites.data
+      })
+    } catch (error) {
+      throw new Error(error)     
+    }
+  }
+}

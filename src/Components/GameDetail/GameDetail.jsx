@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Response from "../Response/Response";
 import {
   getGameById,
   getPostsWithPagination,
@@ -8,6 +9,7 @@ import {
 } from "../../Redux/actions";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { imageDef } from "../../Multimedia/imageDefault";
 const GameDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,6 +17,9 @@ const GameDetail = () => {
   const id = detail;
   const [isFav, setIsFav] = useState(false);
   const myFavorites = useSelector((state) => state.myFavorites);
+  
+
+
 
   const handleFavorite = async () => {
     if (isFav) {
@@ -47,14 +52,16 @@ const GameDetail = () => {
     dispatch(getFavorite());
   }, [id]);
 
+  const user=useSelector(state=>state.user)
   let game = useSelector((state) => state.game);
   let gamePosts = useSelector((state) => state.pagePosts);
+  
 
   let lastPosts = gamePosts.posts;
   const gameModes = game.GameModes;
 
   const handleOnClick = (id) => {
-    let gameId = id;
+    let gameId = game.id;
     let gameModeId = id;
     navigate(`/post?gameId=${gameId}&gameModeId=${gameModeId}`);
   };
@@ -64,7 +71,8 @@ const GameDetail = () => {
       <div className="w-[100%]">
         <div
           className=" h-[300px] w-[80%] mx-auto bg-gray-300  rounded-lg p-3 mt-[2rem]  shadow-lg transform rotate-x-2 rotate-y-2 perspective-lg"
-          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)" }}>
+          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)" }}
+        >
           <div className="bg-gray-500 w-[3rem] h-[2rem] flex items-center justify-center mx-[2rem] ">
             {isFav ? (
               <button onClick={handleFavorite} className="text-red-500">
@@ -79,7 +87,8 @@ const GameDetail = () => {
           <div className="flex items-center mt-[1rem] mx-[1rem] ">
             <motion.div
               className="flex items-center justify-center w-[11rem] h-[11rem] bg-gray-800 rounded-xl m-2 hover:bg-gray-500"
-              whileHover={{ scale: 1.1 }}>
+              whileHover={{ scale: 1.1 }}
+            >
               <img
                 src={game.thumbnail}
                 className="mx-auto w-full h-full"
@@ -99,7 +108,8 @@ const GameDetail = () => {
                                 text-base px-3 py-1 bg-gray-900 hover:bg-black hover:text-white m-3 
                                 transition-colors duration-300 ease-in-out"
                       whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}>
+                      whileTap={{ scale: 0.9 }}
+                    >
                       New post of {name}
                     </motion.button>
                   );
@@ -118,22 +128,22 @@ const GameDetail = () => {
                 <div className="w-[80%] mx-auto mt-4 border-2 border-crimson p-2 flex flex-col items-start mb-1 ml-auto">
                   <div className="bg-gray-300 flex rounded-xl items-center justify-between shadow-md w-[100%]">
                     <div className="flex items-center">
-                      <img
-                        src="https://source.unsplash.com/120x120/?person"
-                        alt=""
-                        className={`rounded-[2rem] ${
-                          User?.name ? "w-[35%]" : "w-[50%]"
-                        } h-full cursor-pointer p-2`}
-                      />
+                    {
+                            User.image?.length >1 ? <img src={User.image} className={`rounded-[2rem] h-12`}/>
+                            : <img src={imageDef} className={`rounded-[2rem] h-12`} />
+                          }
                       <div className="">
                         <p className="text-black text-xs">Posted By:</p>
-                        <Link
-                          to={`/user/${User.id}`}
-                          whileHover={{ scale: 1.1 }}>
-                          <p className=" text-black text-xs font-bold ">
-                            {User.name}
-                          </p>
-                        </Link>
+                        <button onClick={
+                                  ()=>{
+                                    if(User.id === user.id) navigate(`/profile/${user.id}`)
+                                    else{navigate (`/user/${User.id}`)}
+                                  }}>
+
+                                  <p className=" text-black text-xs font-bold ">
+                                    {User?.name}
+                                  </p>
+                                </button>
                       </div>
                     </div>
 
@@ -153,6 +163,9 @@ const GameDetail = () => {
                     {text}
                   </div>
                 </div>
+                <div className="items-center justify-center">
+                      <Response postId={id} userId={User.id} />
+                    </div>
               </div>
             );
           } else {

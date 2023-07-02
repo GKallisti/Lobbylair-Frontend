@@ -1,14 +1,26 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
-  console.log("as");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   const handleReset = async (values) => {
-    console.log("a");
     const { newPassword } = values;
     try {
       await axios.post("https://llbcknd.onrender.com/resetPassword", {
@@ -18,15 +30,15 @@ const ResetPassword = () => {
       navigate("/");
     } catch (error) {
       alert(
-        error.response.data.message || "Error al restablecer la contraseña"
+        error.response.data.message || "Failed to reset password"
       );
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="max-w-md w-full mx-auto p-6 border border-gray-300 shadow-md rounded-md">
-        <h1 className="text-2xl font-bold mb-4">Restablecer contraseña</h1>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="flex mx-auto bg-gray-200 flex-col w-[90%] max-w-md mx-auto p-10 border bg-gray-200 rounded-md">
+        <h1 className="text-2xl font-bold mb-4">Restore Your Password</h1>
         <Formik
           initialValues={{ newPassword: "", confirmPassword: "" }}
           validate={(values) => {
@@ -37,7 +49,7 @@ const ResetPassword = () => {
 
             if (values.newPassword.length < 8) {
               errors.newPassword =
-                "La contraseña debe tener al menos 8 caracteres";
+                "Password must contain at least 8 characters";
             }
 
             if (!/(?=.*[A-Z])(?=.*[!@#$%^&*])/.test(values.newPassword)) {
@@ -46,11 +58,11 @@ const ResetPassword = () => {
             }
 
             if (!values.confirmPassword) {
-              errors.confirmPassword = "Campo requerido";
+              errors.confirmPassword = "Required field";
             }
 
             if (values.confirmPassword !== values.newPassword) {
-              errors.confirmPassword = "Las contraseñas no coinciden";
+              errors.confirmPassword = "Passwords do not match";
             }
 
             return errors;
@@ -58,38 +70,56 @@ const ResetPassword = () => {
           onSubmit={handleReset}
         >
           <Form>
-            <div className="mb-4">
+            <div className="mb-6">
               <label
                 htmlFor="newPassword"
-                className="block text-sm font-medium text-gray-700"
+                className="mb-1 text-sm font-bold text-gray-800"
               >
-                Nueva contraseña
+                New password
               </label>
-              <Field
-                type="password"
-                name="newPassword"
-                id="newPassword"
-                className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100 px-3 py-2"
-              />
+              <div className="relative">
+                <Field
+                  type={showPassword ? "text" : "password"}
+                  name="newPassword"
+                  id="newPassword"
+                  className="mt-1 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-[5rem] bg-gray-100 px-3 py-2"
+                />
+                <span
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                </span>
+              </div>
               <ErrorMessage
                 name="newPassword"
                 component="div"
                 className="text-red-500 text-sm mt-1"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-6">
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
+                className="mb-1 text-sm font-bold text-gray-800"
               >
-                Confirmar contraseña
+                Confirm password
               </label>
-              <Field
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100 px-3 py-2"
-              />
+              <div className="relative">
+                <Field
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  className="mt-1 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-[5rem] bg-gray-100 px-3 py-2"
+                />
+                <span
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
+                  onClick={toggleConfirmPasswordVisibility}
+                >
+                  <FontAwesomeIcon
+                    icon={showConfirmPassword ? faEye : faEyeSlash}
+                  />
+                </span>
+              </div>
               <ErrorMessage
                 name="confirmPassword"
                 component="div"
@@ -98,10 +128,9 @@ const ResetPassword = () => {
             </div>
             <button
               type="submit"
-              onSubmit={handleReset}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="w-full flex justify-center py-2 border border-transparent hover:text-black rounded-[5rem] shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-500 focus:outline-none focus:ring-2"
             >
-              Restablecer contraseña
+              Reset password
             </button>
           </Form>
         </Formik>

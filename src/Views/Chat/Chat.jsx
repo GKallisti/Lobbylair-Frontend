@@ -1,90 +1,43 @@
-import React, { useState } from 'react';
-import GamesBar from '../../Components/GamesBar/GamesBar';
-import './Chat.css';
+import React, { useEffect, useState } from 'react';
+import { PrettyChatWindow } from 'react-chat-engine-pretty';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-  const Chat = () => {
-    const [posts, setPosts] = useState([]);
-    const [newPost, setNewPost] = useState('');
-    const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+const Chat = (props) => {
+  const user = useSelector((state) => state.user);
+  const [secret, setSecret] = useState(null);
 
-  const handleInputChange = event => {
-    setNewMessage(event.target.value);
-  };
-
-  const handleSendMessage = event => {
-    event.preventDefault();
-
-    if (newMessage.trim() !== '') {
-      const message = {
-        id: Date.now(),
-        content: newMessage,
-      };
-
-      setMessages([...messages, message]);
-      setNewMessage('');
-    }
-  };
-
-  
-    const handlePostChange = event => {
-      setNewPost(event.target.value);
+  useEffect(() => {
+    const fetchSecret = async () => {
+      const res = await axios.get(`https://llbcknd.onrender.com/user/password/${user.id}`);
+      const pass = res.data;
+      console.log(pass);
+      setSecret(pass);
     };
-  
-    const handlePostSubmit = event => {
-      event.preventDefault();
-  
-      if (newPost.trim() !== '') {
-        const newPostObj = {
-          id: Date.now(),
-          content: newPost,
-        };
-  
-        setPosts([...posts, newPostObj]);
-        setNewPost('');
-      }
-    };
-  
-    return (
-      <div className="forum-container">
-        <GamesBar />
-        <div className="posts-container mt-4">
-          <form onSubmit={handlePostSubmit} className="flex">
-            <textarea
-              value={newPost}
-              onChange={handlePostChange}
-              placeholder="Escribe tu post..."
-              className="border border-gray-300 rounded-lg px-4 py-2 mr-2 w-full"
+
+    fetchSecret();
+  }, [user.id]);
+
+  return (
+    <div className='bg-[#282B36]'> 
+
+      <h1 className='text-[#282B36]'> chat</h1>
+      <div className='mt-[4rem] bg-slate-900 w-[100%] h-[100%]'>
+      </div>
+      <div style={{ height: '83vh', width: '100vw'}}>
+        {secret && (
+            <PrettyChatWindow
+              projectId={process.env.REACT_APP_CHAT_ENGINE_PROJECT_ID}
+              username={user.name}
+              secret={secret}
+              style={{ height: '100%' }}
             />
-            <button type="submit" className="bg-gray-800 text-white font-bold py-2 px-3 rounded-[2rem]">Post</button>
-          </form>
-          {posts.map(post => (
-            <div key={post.id} className="post bg-gray-100 rounded-lg p-4 mt-4">
-              <p>{post.content}</p>
-            </div>
-          ))}
-        </div>
-        <div className="chat-container">
-      <div className="flex flex-col mt-5">
-        {messages.map(message => (
-          <div key={message.id} className="message">
-            <p>{message.content}</p>
-          </div>
-        ))}
-      </div>
-      <form onSubmit={handleSendMessage}>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={handleInputChange}
-          placeholder="Escribe tu mensaje..."
-          className="w-full bg-gray-300 py-5 px-3 rounded-xl"
-        />
-        <button type="submit" className="bg-gray-800 text-white font-bold py- px-3 rounded-[2rem]">Enviar</button>
-      </form>
+        )}
+      </div> 
     </div>
-      </div>
-    );
-  };
-  
-  export default Chat;
+  );
+};
+
+export default Chat;
+
+

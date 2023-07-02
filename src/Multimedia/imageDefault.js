@@ -1,0 +1,1 @@
+export const imageDef= 'https://firebasestorage.googleapis.com/v0/b/lobbylair-pf.appspot.com/o/Logo.webp?alt=media&token=ea0389a0-f0d5-4d8b-a9b4-c11af490c453'

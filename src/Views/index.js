@@ -8,11 +8,20 @@ import LandingPage from "./LandingPage/LandingPage";
 import Favorites from "./Favorites/Favorites";
 import UpdateProfile from "./UpdateProfile/UpdateProfile";
 import UsersProfile from "./UsersProfile/UsersProfile";
-import AdminDashboard from "./AdminDashboard/AdminDashboard";
 import Subscription from "./Subscription/Subscription";
+import AdminDashboard from "./AdminDashboard/AdminDashboard";
+import UsersDashboard from "./UsersDashboard/UsersDashboard";
+import DataSetDashboard from "./DataSetDasboard/DataSetDashboard";
+import SettingsDashboard from "./SettingsDashboard/SettingsDashboard";
+import Feedback from "./Feedback/Feedback";
+
+
+
+
 
 export { Home, Login, Payment, Profile, Register, Chat, LandingPage, 
-        Favorites, UsersProfile, UpdateProfile, AdminDashboard, Subscription};
+        Favorites, UsersProfile, UpdateProfile, AdminDashboard, Subscription,
+        UsersDashboard, DataSetDashboard, SettingsDashboard, Feedback };
 
 
 

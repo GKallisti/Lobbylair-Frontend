@@ -2,14 +2,68 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
+import { ethers } from "ethers";
+import TxList from "./TxList";
 
-const PaymentComponent = () => {
+async function getEthereumPriceInUSD() {
+  try {
+    const response = await axios.get(
+      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
+      { timeout: 5000 }
+    );
+    const { ethereum: { usd } } = response.data;
+    console.log('ethereum in dollars: ', { usd });
+    return usd;
+  } catch (error) {
+    console.error('Error al obtener el precio de Ethereum:', error);
+    throw error;
+  }
+}
+
+const PaymentComponent = ({ amount, type, currency }) => {
   const [preferenceId, setPreferenceId] = useState(null);
   const stateUser = useSelector((state) => state.user);
-  console.log(stateUser);
   const [selectedOption, setSelectedOption] = useState(null);
   const REACT_APP_KEY = window.env.REACT_APP_MERCADOPAGO_KEY;
-  console.log(REACT_APP_KEY);
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [txs, setTxs] = useState([]);
+
+  const startPayment = async ({ setErrorMessage, setTxs, ether, addr }) => {
+    try {
+      if (!window.ethereum)
+        throw new Error("No crypto wallet found. Please install it.");
+
+      await window.ethereum.send("eth_requestAccounts");
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      ethers.utils.getAddress(addr);
+      const tx = await signer.sendTransaction({
+        to: addr,
+        value: ethers.utils.parseEther(ether)
+      });
+      console.log({ ether, addr });
+      console.log("tx", tx);
+      setTxs([tx]);
+    } catch (err) {
+      setErrorMessage(errorMessage);
+    }
+  };
+
+  const handleClick = async () => {
+    // setErrorMessage();
+    // Obtener el precio actual de Ethereum en dólares
+    const ethPriceUSD = await getEthereumPriceInUSD();
+    // Calcular la cantidad equivalente en ETH
+    const cantidadETH = amount / ethPriceUSD;
+    console.log(cantidadETH)
+    await startPayment({
+      setErrorMessage,
+      setTxs,
+      ether: cantidadETH.toString(),
+      addr: '0xC1ED30e08cDD9D6fb812D7fDa7a30201069722B5'
+    });
+  };
+
   const createPreference = async () => {
     initMercadoPago(REACT_APP_KEY);
     try {
@@ -17,9 +71,9 @@ const PaymentComponent = () => {
       const token = user.token;
       const response = await axios.post("https://llbcknd.onrender.com/payment", {
         token: token,
-        amount: 100,
-        type: "premium",
-        currency: "ARS",
+        amount: amount,
+        type: type,
+        currency: currency,
       });
       const { id } = response.data;
       return id;
@@ -36,9 +90,9 @@ const PaymentComponent = () => {
       const token = user.token;
       const response = await axios.post("https://llbcknd.onrender.com/create-order", {
         token: token,
-        amount: 30,
-        type: "premium",
-        currency: "USD",
+        amount: amount,
+        type: type,
+        currency: currency,
       });
 
       if (response) {
@@ -107,13 +161,23 @@ const PaymentComponent = () => {
           <span className="font-bold text-black">MercadoPago</span>
         </div>
       </div>
-
-      {selectedOption && (
-        <div className="mt-8">
-          <h2 className="text-xl font-bold mb-2">Selected option:</h2>
-          <p>{selectedOption === "paypal" ? "PayPal" : "MercadoPago"}</p>
-        </div>
-      )}
+      <div
+        className={`p-4 border rounded-md shadow-md flex items-center ${
+          selectedOption === "metamask" ? "bg-orange-200" : "bg-white"
+        }`}
+        style={{ cursor: "pointer" }}
+        onClick={() => handleClick("metamask")}
+      >
+        <img
+          src="https://www.sketchappsources.com/resources/source-image/metamask-fox-logo.png"
+          alt="Metamask"
+          style={{ cursor: "pointer" }}
+          className="w-12 h-12 mr-4 cursor-pointer"
+        />
+        <span className="font-bold text-black">Metamask</span>
+      </div>
+      <errorMessage message={errorMessage} />
+      <TxList txs={txs} />
     </div>
   );
 };

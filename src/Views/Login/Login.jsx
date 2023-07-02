@@ -43,7 +43,6 @@ const Login = () => {
     setModalIsOpen(false);
     navigate("/register");
   };
-
   const gotosendEmail = () => { 
     navigate("/sendEmail");
   };

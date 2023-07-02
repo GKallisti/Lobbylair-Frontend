@@ -24,6 +24,11 @@ import {
   DELETE_GAME,
   GET_USERS_WITH_PAGINATION,
   GET_GENRES,
+  CREATE_RESPONSE,
+  GET_RESPONSE,
+  DELETE_RESPONSE,
+  GET_RESPONSE_BY_POST_ID,
+  GET_ALL_FAVORITES
 } from "./action-types";
 
 const initialState = {
@@ -33,6 +38,7 @@ const initialState = {
   gameMode: [],
   genre: [],
   myFavorites: [],
+  favoritesCount: [],
   pageGames: [],
   posts: [],
   pagePosts: [],
@@ -43,6 +49,8 @@ const initialState = {
     : [],
   users: [],
   userPosts: [],
+  response: [],
+  responseByPostId: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -184,10 +192,37 @@ const reducer = (state = initialState, action) => {
         ...state,
         genre: action.payload,
       };
+      case CREATE_RESPONSE:
+        return {
+          ...state,
+          response: action.payload,
+        };
+      case GET_RESPONSE:
+        return {
+          ...state,
+          response: action.payload,
+        };
+      case DELETE_RESPONSE:
+        return {
+          ...state,
+          response: action.payload,
+        };
+      case GET_RESPONSE_BY_POST_ID:
+        return {
+            ...state,
+          responseByPostId: {...state.responseByPostId, [action.payload]: []
+            },
+          };
+      case GET_ALL_FAVORITES:
+        return{
+          ...state,
+          favoritesCount:action.payload
+        }
     default:
       return {
         ...state,
       };
+
   }
 };
 

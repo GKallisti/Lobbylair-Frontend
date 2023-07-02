@@ -78,7 +78,7 @@ const GamesBar = () => {
   return (
     <div className="">
       <motion.div
-        className="bg-gray-200 w-[100%] transition duration-500 hover:scale-105"
+        className="bg-gray-200 w-[100%] transition duration-500 hover:scale"
         style={{ display: "flex" }}
         drag=""
         dragConstraints={{

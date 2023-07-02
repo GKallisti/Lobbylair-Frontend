@@ -7,13 +7,13 @@ const SendEmail = () => {
     try {
       await axios.post("https://llbcknd.onrender.com/sendEmail", { email });
     } catch (error) {
-      alert(error.response.data.message || "Error al enviar el email");
+      alert(error.response.data.message || "Error sending email");
     }
   };
 
   return (
-    <section className="min-h-screen bg-gray-100 pt-9 flex flex-col items-center justify-center">
-      <div className="max-w-lg w-full mx-auto p-6 bg-white border border-gray-300 shadow-md rounded-md">
+    <section className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+      <div className="flex mx-auto bg-gray-200 flex-col w-[90%] max-w-md mx-auto p-10 border bg-gray-200 rounded-md">
         <Formik
           initialValues={{
             email: "",
@@ -24,27 +24,27 @@ const SendEmail = () => {
             if (
               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
             ) {
-              errors.email = "Formato de correo electrónico inválido";
+              errors.email = "Invalid email format";
             }
 
             return errors;
           }}
           onSubmit={handleSendEmail}
         >
-          <Form>
+          <Form >
             <div className="mb-10">
               <label
                 htmlFor="email"
-                className="text-xl font-bold mb-4 text-gray-800"
+                className="text-2xl font-bold mb-10"
               >
-                Tu correo electrónico
+                Send E-mail
               </label>
               <Field
                 type="email"
                 name="email"
                 id="email"
                 placeholder="nombre@empresa.com"
-                className="w-full p-3 border border-gray-300 rounded-[5rem]"
+                className="w-full p-2 mt-5 border border-gray-300 rounded-[5rem]"
                 required
               />
               <ErrorMessage
@@ -55,9 +55,9 @@ const SendEmail = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white border-none rounded-lg p-4 text-lg font-bold cursor-pointer hover:bg-blue-700"
+              className="w-full flex justify-center py-2 border border-transparent p-4 hover:text-black rounded-[5rem] shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-500 focus:outline-none focus:ring-2"
             >
-              Enviar correo electrónico
+              Send
             </button>
           </Form>
         </Formik>

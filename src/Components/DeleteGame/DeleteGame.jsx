@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const DeleteGame = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const allGames = useSelector((state) => state.games);
 
   const [currentPage, setCurrentPage] = useState(1);
