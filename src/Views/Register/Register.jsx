@@ -18,6 +18,9 @@ const Register = () => {
     name: "",
     image: "gs://lobbylair-pf.appspot.com/Logo.webp",
   });
+  const gotoLogin = () => { 
+    navigate("/login");
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -258,8 +261,8 @@ const Register = () => {
               <p className="text-sm text-gray-600">
                 Already have an account?{" "}
                 <a
-                  href="/login"
-                  className="text-blue-500 hover:text-blue-700 font-semibold"
+                 onClick={gotoLogin} 
+                 className="text-blue-500 hover:text-blue-700 font-semibold"
                 >
                   Login
                 </a>
