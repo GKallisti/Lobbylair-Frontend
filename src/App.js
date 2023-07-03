@@ -81,12 +81,12 @@ function App() {
       ) : null}
       {location.pathname.startsWith('/admindashboard') && <AdminNav/>}
       <Routes>
-        <Route element={<ProtectedRoutes2 />}>
+       
+
         <Route path="/" element={<LandingPage />} />
+
         <Route exact path="/register" element={<Register />} />
 
-        </Route>
-        <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<Home />} />
           <Route path="/feedback" element={<Feedback />} />
        
@@ -99,6 +99,7 @@ function App() {
           <Route exact path="/profile/:id/update" element={<UpdateProfile />} />
           <Route path="/user/:id" element={<UsersProfile />} />
           <Route exact path="/chat" element={<Chat />} />
+          
           <Route element={<ProtectedAdminRoute />}>
             
             <Route path="/admindashboard" element={<AdminDashboard />} />
@@ -106,7 +107,7 @@ function App() {
             <Route path="/admindashboard/settings" element={<SettingsDashboard />} />
             <Route path="/admindashboard/dataset" element={<DataSetDashboard />} />
             
-          </Route>
+         
         </Route>
       
         <Route exact path="/sendEmail" element={<SendEmail />} />
