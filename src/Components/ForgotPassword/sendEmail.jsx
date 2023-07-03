@@ -5,7 +5,7 @@ const SendEmail = () => {
   const handleSendEmail = async (values) => {
     const { email } = values;
     try {
-      await axios.post("https://llbcknd.onrender.com/sendEmail", { email });
+      await axios.post("https://bckndll.onrender.com/sendEmail", { email });
     } catch (error) {
       alert(error.response.data.message || "Error sending email");
     }

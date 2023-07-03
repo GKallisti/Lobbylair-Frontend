@@ -20,7 +20,7 @@ const DeleteAdmin = ({ afterDeleteAdmin }) => {
         ...adminToUpdate,
         isAdmin: false,
       };
-      await axios.put(`https://llbcknd.onrender.com/users/${adminId}`, {
+      await axios.put(`https://bckndll.onrender.com/users/${adminId}`, {
         isAdmin: "false",
       });
       console.log(adminId);

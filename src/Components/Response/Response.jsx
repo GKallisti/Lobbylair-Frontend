@@ -19,7 +19,7 @@ const Response = ({ postId, userId }) => {
 
   const fetchResponses = async () => {
     try {
-      const response = await axios.get(`https://llbcknd.onrender.com/response/${postId}`);
+      const response = await axios.get(`https://bckndll.onrender.com/response/${postId}`);
       setResponses(response.data);
     } catch (error) {
       console.log(error);
@@ -44,7 +44,7 @@ const Response = ({ postId, userId }) => {
         userId: userId,
       };
 
-      await axios.post("https://llbcknd.onrender.com/response", newResponse);
+      await axios.post("https://bckndll.onrender.com/response", newResponse);
       resetForm();
       fetchResponses();
     } catch (error) {
@@ -54,7 +54,7 @@ const Response = ({ postId, userId }) => {
 
   const handleDeleteResponse = async (responseId) => {
     try {
-      await axios.delete(`https://llbcknd.onrender.com/response/${responseId}`);
+      await axios.delete(`https://bckndll.onrender.com/response/${responseId}`);
       fetchResponses();
     } catch (error) {
       console.log(error);

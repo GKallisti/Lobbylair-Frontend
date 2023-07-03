@@ -27,13 +27,13 @@ const GameDetail = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user.token;
       await axios.delete(
-        `https://llbcknd.onrender.com/favorite?gameId=${id}&token=${token}`
+        `https://bckndll.onrender.com/favorite?gameId=${id}&token=${token}`
       );
     } else {
       setIsFav(true);
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user.token;
-      await axios.post("https://llbcknd.onrender.com/favorite", {
+      await axios.post("https://bckndll.onrender.com/favorite", {
         token,
         id,
       });

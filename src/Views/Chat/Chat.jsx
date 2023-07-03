@@ -9,7 +9,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     const fetchSecret = async () => {
-      const res = await axios.get(`https://llbcknd.onrender.com/user/password/${user.id}`);
+      const res = await axios.get(`https://bckndll.onrender.com/user/password/${user.id}`);
       const pass = res.data;
       console.log(pass);
       setSecret(pass);

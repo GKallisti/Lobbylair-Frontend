@@ -23,7 +23,7 @@ const ResetPassword = () => {
   const handleReset = async (values) => {
     const { newPassword } = values;
     try {
-      await axios.post("https://llbcknd.onrender.com/resetPassword", {
+      await axios.post("https://bckndll.onrender.com/resetPassword", {
         token,
         newPassword,
       });

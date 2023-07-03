@@ -23,7 +23,7 @@ const AddAdmin = () => {
     },
     onSubmit: async (values, { resetForm }) => {
       const { email } = values;
-      const res = await axios(`https://llbcknd.onrender.com/users/email/${email}`);
+      const res = await axios(`https://bckndll.onrender.com/users/email/${email}`);
       const user = res.data;
 
       if (user.length === 0) {
@@ -33,7 +33,7 @@ const AddAdmin = () => {
       }
       const userId = user.id;
       try {
-        await axios.put(`https://llbcknd.onrender.com/users/${userId}`, {
+        await axios.put(`https://bckndll.onrender.com/users/${userId}`, {
           isAdmin: true,
         });
         resetForm();

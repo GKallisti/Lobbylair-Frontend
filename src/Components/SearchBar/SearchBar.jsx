@@ -33,7 +33,7 @@ const SearchBar = () => {
       return;
     }
     const response = await axios.get(
-      `https://llbcknd.onrender.com/games/page?name=${inputValue}`
+      `https://bckndll.onrender.com/games/page?name=${inputValue}`
     );
     const matches = response.data.games.filter((match) =>
       match.name.toLowerCase().includes(inputValue.toLowerCase())

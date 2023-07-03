@@ -39,7 +39,7 @@ import { ErrorMessage } from "formik";
 
 export const getAllGames = () => {
   return async (dispatch) => {
-    const games = await axios.get("https://llbcknd.onrender.com/games");
+    const games = await axios.get("https://bckndll.onrender.com/games");
     dispatch({
       type: GET_ALL_GAMES,
       payload: games.data,
@@ -49,7 +49,7 @@ export const getAllGames = () => {
 
 export const getGameById = (id) => async (dispatch) => {
   try {
-    const gameId = await axios.get(`https://llbcknd.onrender.com/games/${id}`);
+    const gameId = await axios.get(`https://bckndll.onrender.com/games/${id}`);
     return dispatch({
       type: GET_GAME_BY_ID,
       payload: gameId.data,
@@ -61,7 +61,7 @@ export const getGameById = (id) => async (dispatch) => {
 export const getGamesWithPagination = (currentPage) => async (dispatch) => {
   try {
     const gamesPaginated = await axios.get(
-      `https://llbcknd.onrender.com/games/page?page=${currentPage}`
+      `https://bckndll.onrender.com/games/page?page=${currentPage}`
     );
     return dispatch({
       type: GET_GAMES_WITH_PAGINATION,
@@ -74,7 +74,7 @@ export const getGamesWithPagination = (currentPage) => async (dispatch) => {
 
 export const getGamesByName = (name) => async (dispatch) => {
   try {
-    const gameName = await axios(`https://llbcknd.onrender.com/games/name/${name}`);
+    const gameName = await axios(`https://bckndll.onrender.com/games/name/${name}`);
     return dispatch({
       type: GET_GAMES_BY_NAME,
       payload: gameName.data,
@@ -89,7 +89,7 @@ export const postGames = (payload) => {
   const notifySuccess = (message) => toast.success(message);
   return async (dispatch) => {
     try {
-      let newGame = await axios.post("https://llbcknd.onrender.com/games", payload);
+      let newGame = await axios.post("https://bckndll.onrender.com/games", payload);
       notifySuccess("Game created successfully!");
       return dispatch({
         type: POST_GAME,
@@ -104,7 +104,7 @@ export const getPostsByUserId = (id) => {
   return async (dispatch) => {
     try {
       let post = await axios.get(
-        `https://llbcknd.onrender.com/games/posts/user/${id}`
+        `https://bckndll.onrender.com/games/posts/user/${id}`
       );
       return dispatch({
         type: GET_POST_BY_USER_ID,
@@ -120,7 +120,7 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
     try {
       if (gameid && gamemodeid && +currentPage >= 1) {
         const postsPaginated = await axios.get(
-          `https://llbcknd.onrender.com/posts/page?page=${currentPage}&gameid=${gameid}&gamemodeid=${gamemodeid}`
+          `https://bckndll.onrender.com/posts/page?page=${currentPage}&gameid=${gameid}&gamemodeid=${gamemodeid}`
         );
         return dispatch({
           type: GET_POST_WITH_PAGINATION,
@@ -128,7 +128,7 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
         });
       } else {
         const postsPaginated = await axios.get(
-          `https://llbcknd.onrender.com/posts/page?page=${currentPage}`
+          `https://bckndll.onrender.com/posts/page?page=${currentPage}`
         );
         return dispatch({
           type: GET_POST_WITH_PAGINATION,
@@ -144,7 +144,7 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
 export const getUsersWithPagination = (currentPage) => {
   return async (dispatch) => {
     const userPaginated = await axios.get(
-      `https://llbcknd.onrender.com/users/page/${currentPage}`
+      `https://bckndll.onrender.com/users/page/${currentPage}`
     );
     return dispatch({
       type: GET_USERS_WITH_PAGINATION,
@@ -156,7 +156,7 @@ export const getUsersWithPagination = (currentPage) => {
 export const getAllPosts = () => {
   return async (dispatch) => {
     try {
-      let allPosts = await axios.get("https://llbcknd.onrender.com/posts");
+      let allPosts = await axios.get("https://bckndll.onrender.com/posts");
       return dispatch({
         type: GET_ALL_POSTS,
         payload: allPosts.data,
@@ -170,7 +170,7 @@ export const getAllPosts = () => {
 export const deletePost = (payload) => {
   return async (dispatch) => {
     try {
-      let newGame = await axios.delete("https://llbcknd.onrender.com/post", payload);
+      let newGame = await axios.delete("https://bckndll.onrender.com/post", payload);
       return dispatch({
         type: DELETE_POST,
         payload: newGame.data,
@@ -183,7 +183,7 @@ export const deletePost = (payload) => {
 export const gameMode = () => {
   return async (dispatch) => {
     try {
-      let newGame = await axios.get("https://llbcknd.onrender.com/games/mode");
+      let newGame = await axios.get("https://bckndll.onrender.com/games/mode");
       return dispatch({
         type: GET_GAME_MODE,
         payload: newGame.data,
@@ -196,7 +196,7 @@ export const gameMode = () => {
 export const getGenres = () => {
   return async (dispatch) => {
     try {
-      let genres = await axios.get("https://llbcknd.onrender.com/games/genres");
+      let genres = await axios.get("https://bckndll.onrender.com/games/genres");
       return dispatch({
         type: GET_GENRES,
         payload: genres.data,
@@ -211,7 +211,7 @@ export const createUser = (payload) => {
 
   return async (dispatch) => {
     try {
-      let newUser = await axios.post("https://llbcknd.onrender.com/register", payload);
+      let newUser = await axios.post("https://bckndll.onrender.com/register", payload);
 
       return dispatch({
         type: CREATE_USER,
@@ -232,7 +232,7 @@ export const getUserById = (id) => async (dispatch) => {
         Authorization: `Bearer ${userToken}`,
       },
     };
-    const response = await axios(`https://llbcknd.onrender.com/users/${id}`, config);
+    const response = await axios(`https://bckndll.onrender.com/users/${id}`, config);
     return dispatch({
       type: GET_USER_BY_ID,
       payload: response.data,
@@ -243,7 +243,7 @@ export const getUserById = (id) => async (dispatch) => {
 };
 export const getUserByName = (name) => async (dispatch) => {
   try {
-    const userName = await axios(`https://llbcknd.onrender.com/users/${name}`);
+    const userName = await axios(`https://bckndll.onrender.com/users/${name}`);
     return dispatch({
       type: GET_USER_BY_NAME,
       payload: userName.data,
@@ -255,7 +255,7 @@ export const getUserByName = (name) => async (dispatch) => {
 export const getUserByEmail = (email) => async (dispatch) => {
   try {
     const userEmail = await axios.get(
-      `https://llbcknd.onrender.com/users/email/${email}`
+      `https://bckndll.onrender.com/users/email/${email}`
     );
     return dispatch({
       type: GET_USER_BY_EMAIL,
@@ -269,7 +269,7 @@ export const getUserByEmail = (email) => async (dispatch) => {
 export const getAdminUsers = () => {
   return async (dispatch) => {
     try {
-      const admins = await axios.get("https://llbcknd.onrender.com/users/admins");
+      const admins = await axios.get("https://bckndll.onrender.com/users/admins");
       return dispatch({
         type: GET_ADMINS,
         payload: admins.data,
@@ -282,7 +282,7 @@ export const getAdminUsers = () => {
 
 export const logIn = (payload) => async (dispatch) => {
   try {
-    const response = await axios.post("https://llbcknd.onrender.com/login", payload);
+    const response = await axios.post("https://bckndll.onrender.com/login", payload);
     
     const data = response.data;
     return dispatch({
@@ -307,7 +307,7 @@ export const logOut = () => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    const userId = await axios.delete(`https://llbcknd.onrender.com/users/${id}`);
+    const userId = await axios.delete(`https://bckndll.onrender.com/users/${id}`);
     return dispatch({
       type: DELETE_USER,
       payload: userId.data,
@@ -320,7 +320,7 @@ export const deleteUser = (id) => async (dispatch) => {
 export const updateUser = (id, payload) => async (dispatch) => {
   try {
     const userId = await axios.put(
-      `https://llbcknd.onrender.com/users/${id}`,
+      `https://bckndll.onrender.com/users/${id}`,
       payload
     );
     return dispatch({
@@ -335,7 +335,7 @@ export const updateUser = (id, payload) => async (dispatch) => {
 export const createPost = (payload) => {
   return async (dispatch) => {
     try {
-      let newPost = await axios.post("https://llbcknd.onrender.com/posts", payload);
+      let newPost = await axios.post("https://bckndll.onrender.com/posts", payload);
       let post = [newPost.data];
       return dispatch({
         type: CREATE_POST,
@@ -353,7 +353,7 @@ export const getFavorite = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user.token;
       const respuesta = await axios.get(
-        `https://llbcknd.onrender.com/favorite/${token}`
+        `https://bckndll.onrender.com/favorite/${token}`
       );
       const data = respuesta.data;
       return dispatch({ type: ADD_FAVORITE, payload: data });
@@ -379,7 +379,7 @@ export const getAllUsers = () => async (dispatch) => {
         Authorization: `Bearer ${userToken}`, // Incluye el token en el encabezado de la solicitud
       },
     };
-    const response = await axios.get("https://llbcknd.onrender.com/users", config);
+    const response = await axios.get("https://bckndll.onrender.com/users", config);
     return dispatch({
       type: GET_ALL_USERS,
       payload: response.data,
@@ -394,7 +394,7 @@ export const deleteGame = (id) => {
 
   return async (dispatch) => {
     try {
-      const gameId = await axios.delete(`https://llbcknd.onrender.com/games/${id}`);
+      const gameId = await axios.delete(`https://bckndll.onrender.com/games/${id}`);
 
       return dispatch({
         type: DELETE_GAME,
@@ -409,7 +409,7 @@ export const deleteGame = (id) => {
 export const getGameModes = () => {
   return async (dispatch) => {
     try {
-      let newGame = await axios.get("https://llbcknd.onrender.com/games/mode");
+      let newGame = await axios.get("https://bckndll.onrender.com/games/mode");
       return dispatch({
         type: GET_GAME_MODE,
         payload: newGame.data,
@@ -426,7 +426,7 @@ export const getResponse = (postId) => {
     try {
       dispatch(getResponseByPostId(postId)); // Agrega esta línea para despachar la acción
 
-      const response = await axios.get(`https://llbcknd.onrender.com/response/${postId}`);
+      const response = await axios.get(`https://bckndll.onrender.com/response/${postId}`);
       
       const payload = {
         [postId]: response.data, // Anidar las respuestas dentro del postId correspondiente
@@ -445,7 +445,7 @@ export const getResponse = (postId) => {
 export const createResponse = (text, postId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post("https://llbcknd.onrender.com/response", { text, postId });
+      const response = await axios.post("https://bckndll.onrender.com/response", { text, postId });
       return dispatch({
         type: CREATE_RESPONSE,
         payload: response.data,
@@ -460,7 +460,7 @@ export const createResponse = (text, postId) => {
 export const deleteResponse = (responseId) => {
   return async (dispatch) => {
     try {
-      const response = await axios.delete(`https://llbcknd.onrender.com/response/${responseId}`);
+      const response = await axios.delete(`https://bckndll.onrender.com/response/${responseId}`);
       return dispatch({
         type: DELETE_RESPONSE,
         payload: response.data,
@@ -477,7 +477,7 @@ export const getResponseByPostId = (postId) => ({
 export const getAllFavorites = ()=>{
   return async (dispatch)=>{
     try {
-      const allFavorites= await axios.get('https://llbcknd.onrender.com/favorite')
+      const allFavorites= await axios.get('https://bckndll.onrender.com/favorite')
       return dispatch({
         type:GET_ALL_FAVORITES,
         payload:allFavorites.data

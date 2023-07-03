@@ -69,7 +69,7 @@ const PaymentComponent = ({ amount, type, currency }) => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user.token;
-      const response = await axios.post("https://llbcknd.onrender.com/payment", {
+      const response = await axios.post("https://bckndll.onrender.com/payment", {
         token: token,
         amount: amount,
         type: type,
@@ -88,7 +88,7 @@ const PaymentComponent = ({ amount, type, currency }) => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const token = user.token;
-      const response = await axios.post("https://llbcknd.onrender.com/create-order", {
+      const response = await axios.post("https://bckndll.onrender.com/create-order", {
         token: token,
         amount: amount,
         type: type,
