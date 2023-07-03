@@ -19,6 +19,7 @@ const Register = () => {
     image: "gs://lobbylair-pf.appspot.com/Logo.webp",
   });
   const gotoLogin = () => { 
+    localStorage.setItem("isAuthenticated", false)
     navigate("/login");
   };
 
