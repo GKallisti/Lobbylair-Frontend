@@ -102,7 +102,6 @@ function App() {
           <Route exact path="/profile/:id" element={<Profile />} />
           <Route exact path="/profile/:id/update" element={<UpdateProfile />} />
           <Route path="/user/:id" element={<UsersProfile />} />
-          <Route exact path="/chat" element={<Chat />} />
           
            </Route>
 
