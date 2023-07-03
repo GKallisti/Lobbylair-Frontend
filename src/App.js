@@ -82,9 +82,10 @@ function App() {
       {location.pathname.startsWith('/admindashboard') && <AdminNav/>}
       <Routes>
         <Route element={<ProtectedRoutes2 />}>
-          <Route path="/" element={<LandingPage />} />
-        </Route>
+        <Route path="/" element={<LandingPage />} />
         <Route exact path="/register" element={<Register />} />
+
+        </Route>
         <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<Home />} />
           <Route path="/feedback" element={<Feedback />} />

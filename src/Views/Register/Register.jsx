@@ -20,7 +20,7 @@ const Register = () => {
   });
   const gotoLogin = () => { 
     localStorage.setItem("isAuthenticated", false)
-    navigate("/login");
+    navigate("/");
   };
 
   const handleRegister = async (e) => {
