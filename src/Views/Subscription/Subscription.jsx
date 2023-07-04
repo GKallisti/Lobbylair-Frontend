@@ -143,8 +143,8 @@ const Subscription = () => {
       <div className="mt-6">
         <label htmlFor="currency" className="mr-2">
           Select Currency:
-        </label>
-        <select
+          </label>       
+           <select
           id="currency"
           value={selectedCurrency}
           onChange={handleCurrencyChange}
