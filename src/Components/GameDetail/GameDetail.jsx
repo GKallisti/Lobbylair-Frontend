@@ -48,11 +48,11 @@ const GameDetail = () => {
 
   useEffect(() => {
     dispatch(getGameById(id));
-    dispatch(getPostsWithPagination(id));
+    dispatch(getPostsWithPagination(undefined, id));
     dispatch(getFavorite());
   }, [id]);
 
-  const user=useSelector(state=>state.user)
+  const user = useSelector(state=>state.user)
   let game = useSelector((state) => state.game);
   let gamePosts = useSelector((state) => state.pagePosts);
   

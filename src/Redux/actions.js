@@ -126,6 +126,14 @@ export const getPostsWithPagination = (currentPage, gameid, gamemodeid) => {
           type: GET_POST_WITH_PAGINATION,
           payload: postsPaginated.data,
         });
+      } else if (gameid) {
+        const postsPaginated = await axios.get(
+          `https://bckndll.onrender.com/posts/page?gameid=${gameid}`
+        );
+        return dispatch({
+          type: GET_POST_WITH_PAGINATION,
+          payload: postsPaginated.data,
+        });
       } else {
         const postsPaginated = await axios.get(
           `https://bckndll.onrender.com/posts/page?page=${currentPage}`
