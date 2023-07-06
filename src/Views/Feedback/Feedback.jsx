@@ -18,6 +18,8 @@ function Feedback() {
   const type = searchParams.get('type');
   const token = searchParams.get("token");
 
+
+  
   
   useEffect(() => {
     let isTokenProcessed = false; // Variable para rastrear si el token ya se ha procesado
