@@ -3,20 +3,37 @@ import { useLocation, Link } from 'react-router-dom';
 import { FcApproval } from 'react-icons/fc';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { getAllUsers } from '../Redux/actions';
 
 function Feedback() {
   const [typedText, setTypedText] = useState('');
+  const dispatch = useDispatch();
   const sentence = 'Your transaction has been processed successfully.';
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const userId = searchParams.get('userId');
   const amount = searchParams.get('amount');
   const currency = searchParams.get('currency');
   const type = searchParams.get('type');
+  const token = searchParams.get("token");
 
+  
   useEffect(() => {
-    let currentText = '';
+    let isTokenProcessed = false; // Variable para rastrear si el token ya se ha procesado
+    dispatch(getAllUsers());
+    if (token && !isTokenProcessed) {
+      console.log(Date.now());
+      axios(
+        `https://bckndll.onrender.com/capture-order?userId=${userId}&amount=${amount}&currency=${currency}&type=${type}&token=${token}`
+      );
+      isTokenProcessed = true; // Marcamos el token como procesado
+    } else {
+      axios(
+        `https://bckndll.onrender.com/feedback?userId=${userId}&amount=${amount}&currency=${currency}&type=${type}`
+      );
+    }
+    let currentText = "";
     let index = 0;
     const typingInterval = setInterval(() => {
       currentText += sentence[index];
@@ -30,29 +47,31 @@ function Feedback() {
       clearInterval(typingInterval);
     };
   }, []);
+    
 
-  useEffect(() => {
-    const sendFeedbackData = async () => {
-      try {
-        const response = await axios.get('/feedback', {
-          userId,
-          amount,
-          currency,
-          type,
-        });
+  // useEffect(() => {
+    
+  //   const sendFeedbackData = async () => {
+  //     try {
+  //       const response = await axios.get('/feedback', {
+  //         userId,
+  //         amount,
+  //         currency,
+  //         type,
+  //       });
 
-        if (response.status === 200) {
-          console.log('Feedback data sent successfully');
-        } else {
-          console.log('Failed to send feedback data');
-        }
-      } catch (error) {
-        console.log('Error:', error);
-      }
-    };
+  //       if (response.status === 200) {
+  //         console.log('Feedback data sent successfully');
+  //       } else {
+  //         console.log('Failed to send feedback data');
+  //       }
+  //     } catch (error) {
+  //       console.log('Error:', error);
+  //     }
+  //   };
 
-    sendFeedbackData();
-  }, [userId, amount, currency, type]);
+  //   sendFeedbackData();
+  // }, [userId, amount, currency, type]);
 
   return (
     <div>
