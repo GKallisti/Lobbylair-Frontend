@@ -4,7 +4,6 @@ import { FcApproval } from 'react-icons/fc';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import  { getAllUsers }  from '../../Redux/actions';
 
 
 function Feedback() {
@@ -38,7 +37,6 @@ function Feedback() {
     axios.put( `https://bckndll.onrender.com/users/${userId}`, {
       isPremium: true  
     });
-    dispatch(getAllUsers());
 
 
     let currentText = "";
