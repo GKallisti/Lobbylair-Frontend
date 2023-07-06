@@ -21,7 +21,7 @@ function Feedback() {
   
   useEffect(() => {
     let isTokenProcessed = false; // Variable para rastrear si el token ya se ha procesado
-    dispatch(getAllUsers());
+
     if (token && !isTokenProcessed) {
       console.log(Date.now());
       axios(
@@ -33,6 +33,13 @@ function Feedback() {
         `https://bckndll.onrender.com/feedback?userId=${userId}&amount=${amount}&currency=${currency}&type=${type}`
       );
     }
+    
+    axios.put( `https://bckndll.onrender.com/users/${userId}`, {
+      isPremium: true  
+    });
+    dispatch(getAllUsers());
+
+
     let currentText = "";
     let index = 0;
     const typingInterval = setInterval(() => {
