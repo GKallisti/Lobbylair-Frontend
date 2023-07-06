@@ -4,7 +4,7 @@ import { FcApproval } from 'react-icons/fc';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { getAllUsers } from '../Redux/actions';
+import { getAllUsers } from '../../Redux/actions';
 
 function Feedback() {
   const [typedText, setTypedText] = useState('');
