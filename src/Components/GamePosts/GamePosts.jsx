@@ -122,7 +122,7 @@ const GamePosts = () => {
 write the post"
               />
               <button
-                className="ml-2 bg-black text-white border-none rounded-full px-4 py-2 text-lg font-bold cursor-pointer"
+                className="ml-2 bg-gray-900 text-white border-none rounded-full px-4 py-2 text-lg font-bold cursor-pointer"
                 type="submit">
                 Create Post
               </button>
@@ -132,7 +132,7 @@ write the post"
           <button
             onClick={handlePrev}
             disabled={btnPrev}
-            className="bg-black text-white border-none rounded-[5rem] p-3 text-l font-bold cursor-pointer m-2 text-sm">
+            className="bg-gray-900 text-white border-none rounded-[5rem] p-3 text-l font-bold cursor-pointer m-2 text-sm">
             {" "}
             Prev{" "}
           </button>
@@ -151,7 +151,7 @@ write the post"
           <button
             onClick={handleNext}
             disabled={btnNext}
-            className="bg-black text-white border-none rounded-[5rem] p-3 text-l font-bold cursor-pointer m-2 text-sm">
+            className="bg-gray-900 text-white border-none rounded-[5rem] p-3 text-l font-bold cursor-pointer m-2 text-sm">
             {" "}
             Next{" "}
           </button>
@@ -198,7 +198,7 @@ write the post"
 
   </div>
   <div className="items-end">
-  <h1 className="text-s font-bold">{Game?.name}</h1> 
+  <h1 className="text-s font-bold text-black">{Game?.name}</h1> 
   </div>
   
   <div className="w-[20%]  p-4 flex flex-col items-end text-left">

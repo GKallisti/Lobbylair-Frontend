@@ -126,10 +126,10 @@ const Response = ({ postId, userId }) => {
                 </div>
               )}
               {filteredResponses.map((response) => (
-                <div key={response.id} className="flex w-[5%]justify-between items-center">
+                <div key={response.id} className="flex w-[5%] mx-auto justify-center items-center w-[45%] border-2 rounded-full border-gray-350">
                   <p className="w-[60%] text-s ">{response.text}</p>
-                  <div className="w-[20%] flex justify-end items-center">
-                    <p className="mr-2"> {response.userId === userId ? "You" : response.userId}</p>
+                  <div className="w-[20%] flex justify-end items-center ">
+                    <p className="mr-2 "> {response.userId === userId ? "You" : response.userId}</p>
                     <button className="justify-end" onClick={() => handleDeleteResponse(response.id)}>
                       <TiDelete />
                     </button>

@@ -84,8 +84,8 @@ const Home = () => {
                       <div className="bg-gray-300 flex rounded-xl items-center justify-between shadow-md w-[100%]">
                         <div className="flex items-center">
                           {
-                            post.User?.image?.length >1 ? <img src={post.User?.image} className={`rounded-[2rem] h-10 w-10`}/>
-                            : <img src={imageDef} className={`rounded-[2rem] h-10 w-10`} />
+                            post.User?.image?.length >1 ? <img src={post.User?.image} className={`rounded-[2rem] h-10 w-10`} alt=""/>
+                            : <img src={imageDef} className={`rounded-[2rem] h-10 w-10`} alt=""/>
                           }
                           <div className="">
                             {post.User?.name && (
@@ -106,7 +106,7 @@ const Home = () => {
                           </div>
                         </div>
                         <div>
-                          <h1>{post.Game?.name}</h1>
+                          <h1 className="text-black">{post.Game?.name}</h1>
                         </div>
                         <div className="flex flex-col items-end">
                           <div className="text-black  text-xs mr-9 ">
@@ -145,7 +145,7 @@ const Home = () => {
             </p>
             <Link to="/subscription">
           <motion.button
-            className="bg-black text-white rounded-[6.9px] px-3 py-2 mt-3"
+            className="bg-gray-900 text-white rounded-[6.9px] px-3 py-2 mt-3"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >

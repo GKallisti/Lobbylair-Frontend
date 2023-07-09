@@ -83,12 +83,12 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="bg-[#1f2937] p-[1rem] sticky">
-      <div className="flex justify-between items-center max-w-[1050px] mx-auto">
-        <div className="flex items-center gap-6">
+    <nav className="bg-black p-[1rem] sticky ">
+      <div className="flex justify-between items-center max-w-[1050px] mx-auto ">
+        <div className="flex items-center gap-6 ">
           <NavLink
             to="/home"
-            className="w-[50px] h-[50px] bg-white rounded-full border-2 border-white inline-block overflow-hidden"
+            className="w-[50px] h-[50px] bg-white rounded-full border-2 inline-block overflow-hidden"
           >
             <img
               src={LobbyLogo}
@@ -116,16 +116,16 @@ const NavBar = () => {
               />
               
             )}
-            <span className="text-white text-lg font-bold hover:text-gray-300">
+            <span className="text-white text-lg hover:text-gray-300">
               {theme ? "Light" : "Dark"}
               </span>
               <NavLink
               to="/chat"
-              className="ml-2 flex items-center text-white text-lg font-bold hover:text-gray-300"
+              className="ml-2 flex items-center text-white text-lg hover:text-gray-300"
               activeClassName="text-gray-300"
               >
               <AiOutlineMessage size={20} />
-              <span className="ml-1">Chat</span>
+              <span className="ml-1 ">Chat</span>
             </NavLink>
           </div>
           <NavItem href="/home" text="Home" className="hidden md:block" />
@@ -178,6 +178,7 @@ const NavBar = () => {
         </div>
       </div>
     </nav>
+    
   );
 };
 
