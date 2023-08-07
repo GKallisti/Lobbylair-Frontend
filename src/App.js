@@ -4,7 +4,6 @@ import {
   Payment,
   Profile,
   Register,
-  Chat,
   LandingPage,
   Favorites,
   UsersProfile,
@@ -102,7 +101,6 @@ function App() {
           <Route exact path="/profile/:id" element={<Profile />} />
           <Route exact path="/profile/:id/update" element={<UpdateProfile />} />
           <Route path="/user/:id" element={<UsersProfile />} />
-          <Route path="/chat" element={<Chat />} />
            </Route>
 
           <Route element={<ProtectedAdminRoute />}>
